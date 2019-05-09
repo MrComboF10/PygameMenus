@@ -1,0 +1,11 @@
+BUTTONS:
+size 1: 600x80
+size 2: 450x60
+size 3: 300x40
+size 4: 150x20
+
+MARGIN:
+size x1: 40
+size x2: 30
+size x3: 20
+size x4: 10
