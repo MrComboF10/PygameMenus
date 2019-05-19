@@ -17,6 +17,8 @@ class PressButtonChangeState:
         self.__current_mouse_position = (0, 0)
         self.__current_state_text_index = 0
         self.__mouse_on_button = False
+        self.__mouse_location_changed = False
+        self.__mouse_click_update = False
 
     def get_current_mouse_position(self, mouse_position):
         self.__current_mouse_position = mouse_position
@@ -24,20 +26,35 @@ class PressButtonChangeState:
     def get_mouse_on_button(self):
         return self.__mouse_on_button
 
+    def get_text_index(self):
+        return self.__current_state_text_index
+
+    def get_mouse_location_changed(self):
+        return self.__mouse_location_changed
+
+    def get_mouse_click_update(self):
+        return self.__mouse_click_update
+
+    def insert_mouse_location_changed(self, changed):
+        self.__mouse_location_changed = changed
+
+    def insert_mouse_click_update(self, click):
+        self.__mouse_click_update = click
+
     def verify_mouse_on_button(self):
+        self.__mouse_on_button = False
         left_position = self.__position[0]
         right_position = self.__position[0] + self.__size[0]
         up_position = self.__position[1]
         down_position = self.__position[1] + self.__size[1]
 
-        if left_position < self.__current_mouse_position[0] < right_position:
-            if up_position < self.__current_mouse_position[1] < down_position:
-                self.__mouse_on_button = True
+        if left_position < self.__current_mouse_position[0] < right_position and up_position < self.__current_mouse_position[1] < down_position:
+            self.__mouse_on_button = True
 
     def draw_button(self, color):
 
         # draw button rectangle
-        pygame.draw.rect(self.__screen_display, color, [self.__position[0], self.__position[1], self.__size[0], self.__size[1]])
+        pygame.draw.rect(self.__screen_display, color, (self.__position[0], self.__position[1], self.__size[0], self.__size[1]))
 
         # get font surface
         current_state_text = self.__state_text_list[self.__current_state_text_index]
@@ -58,10 +75,107 @@ class PressButtonChangeState:
     def draw_pressed_button(self):
         self.draw_button(self.__pressed_color)
 
-    def update_index(self):
+    def add_state_text_index(self):
         self.__current_state_text_index += 1
         self.__current_state_text_index = self.__current_state_text_index % len(self.__state_text_list)
 
 
+########################################################################################################################
 
+
+class SlideBar:
+    def __init__(self, button_pos, button_size, bar_width, unpressed_color, pressed_color, screen_display):
+        self.__button_position = button_pos
+        self.__button_size = button_size
+        self.__bar_width = bar_width
+        self.__unpressed_color = unpressed_color
+        self.__pressed_color = pressed_color
+        self.__screen_display = screen_display
+
+        self.__bar_position = button_pos
+        self.__current_mouse_position = (0, 0)
+        self.__mouse_on_bar = False
+        self.__bar_pressed = False
+
+    def insert_bar_position(self, bar_position):
+        self.__bar_position = bar_position
+
+    def get_mouse_on_bar(self):
+        return self.__mouse_on_bar
+
+    def get_width(self):
+        return self.__bar_width
+
+    def press(self):
+        self.__bar_pressed = True
+
+    def release(self):
+        self.__bar_pressed = False
+
+    def draw_unpressed(self):
+        pygame.draw.rect(self.__screen_display, self.__unpressed_color, (self.__bar_position[0], self.__bar_position[1], self.__bar_width, self.__button_size[1]))
+
+    def draw_pressed(self):
+        pygame.draw.rect(self.__screen_display, self.__pressed_color, (self.__bar_position[0], self.__bar_position[1], self.__bar_width, self.__button_size[1]))
+
+
+class SlideButton:
+    def __init__(self, pos, size, bar_width, range_items, font_color, bar_unpressed_color, bar_pressed_color, screen_display):
+        self.__position = pos
+        self.__size = size
+        self.__bar_width = bar_width
+        self.__range_items = range_items
+        self.__font_color = font_color
+        self.__bar_unpressed_color = bar_unpressed_color
+        self.__bar_pressed_color = bar_pressed_color
+        self.__screen_display = screen_display
+
+        self.__current_mouse_position = (0, 0)
+        self.__current_bar_position = pos
+        self.__mouse_on_button = False
+        self.__bar_pressed = False
+
+    def bar_is_pressed(self):
+        return self.__bar_pressed
+
+    def insert_current_mouse_position(self, mouse_position):
+        self.__current_mouse_position = mouse_position
+
+    def verify_mouse_on_button(self):
+        self.__mouse_on_button = False
+        if self.__position[0] < self.__current_mouse_position[0] < self.__position[0] + self.__size[0]:
+            if self.__position[1] < self.__current_mouse_position[1] < self.__position[1] + self.__size[1]:
+                self.__mouse_on_button = True
+
+    def calculate_bar_position(self):
+        if self.__current_mouse_position[0] > self.__position[0] + self.__size[0] - self.__bar_width:
+            self.__current_bar_position = (self.__position[0] + self.__size[0] - self.__bar_width, self.__position[1])
+
+        elif self.__current_mouse_position[0] < self.__position[0]:
+            self.__current_bar_position = self.__position
+
+        else:
+            self.__current_bar_position = (self.__current_mouse_position[0], self.__position[1])
+
+    def press_bar(self):
+        self.__bar_pressed = True
+
+    def release_bar(self):
+        self.__bar_pressed = False
+
+    def draw_released_bar(self):
+        pygame.draw.rect(self.__screen_display, self.__bar_unpressed_color, (self.__current_bar_position[0], self.__current_bar_position[1], self.__bar_width, self.__size[1]))
+
+    def draw_pressed_bar(self):
+        pygame.draw.rect(self.__screen_display, self.__bar_pressed_color, (self.__current_bar_position[0], self.__current_bar_position[1], self.__bar_width, self.__size[1]))
+
+
+
+
+
+
+
+
+# class SlideButton:
+#     def __init__(self, button_pos, button_size, ):
 
