@@ -1,1 +1,7 @@
-Make menu options images
+Finish class SlideButton
+
+Make class PressStaticButton
+
+Make class PressButton
+
+Use class hierarchy with base class PressButton
