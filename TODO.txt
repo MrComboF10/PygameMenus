@@ -1,9 +1,9 @@
-Python overloading constructors not supported
-
-In button classes method __init__ change argument position and size to position = None, size = None
-
 Create class Block
 
 Pass list of button objects without position and size defined
 
 Define for each object the position and size inside class Block
+
+Use type(x).__name__ to get class name of an object
+
+Create class Menu
