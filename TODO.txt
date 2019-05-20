@@ -1,4 +1,4 @@
-Python overloading contructors not supported
+Python overloading constructors not supported
 
 In button classes method __init__ change argument position and size to position = None, size = None
 
