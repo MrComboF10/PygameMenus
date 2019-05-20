@@ -1,7 +1,9 @@
-Finish class SlideButton
+Python overloading contructors not supported
 
-Make class PressStaticButton
+In button classes method __init__ change argument position and size to position = None, size = None
 
-Make class PressButton
+Create class Block
 
-Use class hierarchy with base class PressButton
+Pass list of button objects without position and size defined
+
+Define for each object the position and size inside class Block
