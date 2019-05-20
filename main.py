@@ -1,5 +1,6 @@
 import pygame
 import button
+import title
 
 white = (255, 255, 255)
 
@@ -11,6 +12,7 @@ def menu_loop():
     pygame.display.update()
 
     font = pygame.font.SysFont("Arial", 25)
+    title_font = pygame.font.SysFont("Arial", 100, True)
 
     button_position_1, button_position_2, button_position_3, button_position_4, button_position_5 = (100, 100), (100, 250), (100, 400), (100, 550), (100, 700)
     button_sizes = (500, 100)
@@ -21,21 +23,29 @@ def menu_loop():
     bar_width = 15
     range_items = range(101)
 
-    change_state_button_1 = button.PressButtonChangeState(button_position_1, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
+    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEP", (500, 100), screen)
+
+    # change_state_button_1 = button.PressButtonChangeState(button_position_1, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
     change_state_button_2 = button.PressButtonChangeState(button_position_2, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
     change_state_button_3 = button.PressButtonChangeState(button_position_3, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
 
     slide_button_1 = button.SlideButton(button_position_4, button_sizes, font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
     slide_button_2 = button.SlideButton(button_position_5, button_sizes, font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
 
-    change_state_buttons = (change_state_button_1, change_state_button_2, change_state_button_3)
+    change_state_buttons = (change_state_button_2, change_state_button_3)
     slide_buttons = (slide_button_1, slide_button_2)
     loop_exit = False
 
+    # draw title
+    title_1.set_font_surface_center()
+    title_1.draw()
+
+    # draw change buttons
     for change_button in change_state_buttons:
         change_button.draw_mouse_out_change_state_button()
     pygame.display.update()
 
+    # draw slide buttons
     for slide_button in slide_buttons:
         slide_button.draw_mouse_out_slide_button()
     pygame.display.update()
