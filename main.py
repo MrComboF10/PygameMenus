@@ -2,6 +2,7 @@ import pygame
 import button
 import title
 import buttonblock
+import menu
 
 white = (255, 255, 255)
 
@@ -15,8 +16,6 @@ def menu_loop():
     font = pygame.font.SysFont("Arial", 25)
     title_font = pygame.font.SysFont("Arial", 100, True)
 
-    button_position_1, button_position_2, button_position_3, button_position_4, button_position_5 = (100, 100), (100, 250), (100, 400), (100, 550), (100, 700)
-    button_sizes = (500, 100)
     states_list = ("Fácil", "Médio", "Difícil")
     mouse_over_button_color = (150, 150, 255)
     mouse_out_button_color = (200, 200, 255)
@@ -24,23 +23,26 @@ def menu_loop():
     bar_width = 15
     range_items = range(101)
 
-    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEPER", (500, 100), screen)
+    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEPER", (500, 100))
 
     # change_state_button_1 = button.PressButtonChangeState(button_position_1, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
 
-    change_state_button_2 = button.PressButtonChangeState(font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
-    change_state_button_3 = button.PressButtonChangeState(font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
+    change_state_button_2 = button.PressButtonChangeState(font, white, mouse_out_button_color, mouse_over_button_color, states_list)
+    change_state_button_3 = button.PressButtonChangeState(font, white, mouse_out_button_color, mouse_over_button_color, states_list)
 
-    slide_button_1 = button.SlideButton(font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
-    slide_button_2 = button.SlideButton(font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+    slide_button_1 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+    slide_button_2 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
 
-    block = buttonblock.Block((300, 300), (410, 410), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
+    block = buttonblock.Block((300, 300), (600, 600), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
 
-    change_state_buttons = block.get_press_buttons_change_state()
-    slide_buttons = block.get_slide_buttons()
-    # slide_buttons = []
-    print(slide_buttons[0].get_position())
-    print(slide_buttons[0].get_size())
+    main_menu = menu.MainMenu(screen, title_1, block)
+
+    # change_state_buttons = block.get_press_buttons_change_state()
+    # slide_buttons = block.get_slide_buttons()
+
+    change_state_buttons = main_menu.get_block().get_press_buttons_change_state()
+    slide_buttons = main_menu.get_block().get_slide_buttons()
+
     loop_exit = False
 
     # draw title
