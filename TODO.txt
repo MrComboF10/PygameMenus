@@ -2,6 +2,8 @@ Create class Block
 
 Pass list of button objects without position and size defined
 
+Calculate buttons positions and sizes in function of block sizes
+
 Define for each object the position and size inside class Block
 
 Use type(x).__name__ to get class name of an object
