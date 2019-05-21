@@ -54,6 +54,9 @@ class PressButton(Button):
 
         super().__init__(position, size, font, font_color, screen_display)
 
+        # self._position = super()._position
+        # self._size = super()._size
+
         self._mouse_out_button_color = mouse_out_button_color
         self._mouse_over_button_color = mouse_over_button_color
 
@@ -65,7 +68,7 @@ class PressButton(Button):
 
 
 class PressButtonStatic(PressButton):
-    def __init__(self, position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color, text, pointer):
+    def __init__(self, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color, text, pointer, position=None, size=None):
 
         super().__init__(position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color)
 
@@ -73,6 +76,12 @@ class PressButtonStatic(PressButton):
         self.__pointer = pointer
 
         self.__pressed = False
+
+    def set_position(self, new_position):
+        self._position = new_position
+
+    def set_size(self, new_size):
+        self._size = new_size
 
     def get_pointer(self):
         return self.__pointer
@@ -94,13 +103,19 @@ class PressButtonStatic(PressButton):
 
 
 class PressButtonChangeState(PressButton):
-    def __init__(self, position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color, states_text_list):
+    def __init__(self, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color, states_text_list, position=None, size=None):
 
         super().__init__(position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color)
 
         self.__states_text_list = states_text_list
 
         self.__current_state_text_index = 0
+
+    def set_position(self, new_position):
+        self._position = new_position
+
+    def set_size(self, new_size):
+        self._size = new_size
 
     def add_state_text_index(self):
         self.__current_state_text_index += 1
@@ -114,7 +129,7 @@ class PressButtonChangeState(PressButton):
 
 
 class SlideButton(Button):
-    def __init__(self, position, size, font, font_color, screen_display, bar_width, range_items, mouse_out_bar_color, mouse_over_bar_color, button_color):
+    def __init__(self, font, font_color, screen_display, bar_width, range_items, mouse_out_bar_color, mouse_over_bar_color, button_color, position=None, size=None):
 
         super().__init__(position, size, font, font_color, screen_display)
 
@@ -127,6 +142,19 @@ class SlideButton(Button):
         self.__current_item = range_items[0]
         self.__current_bar_position = position
         self.__bar_pressed = False
+
+    def set_position(self, new_position):
+        self._position = new_position
+        self.__current_bar_position = new_position
+
+    def set_size(self, new_size):
+        self._size = new_size
+
+    def get_position(self):
+        return self._position
+
+    def get_size(self):
+        return self._size
 
     def get_bar_is_pressed(self):
         return self.__bar_pressed

@@ -1,6 +1,7 @@
 import pygame
 import button
 import title
+import buttonblock
 
 white = (255, 255, 255)
 
@@ -23,17 +24,23 @@ def menu_loop():
     bar_width = 15
     range_items = range(101)
 
-    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEP", (500, 100), screen)
+    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEPER", (500, 100), screen)
 
     # change_state_button_1 = button.PressButtonChangeState(button_position_1, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
-    change_state_button_2 = button.PressButtonChangeState(button_position_2, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
-    change_state_button_3 = button.PressButtonChangeState(button_position_3, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
 
-    slide_button_1 = button.SlideButton(button_position_4, button_sizes, font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
-    slide_button_2 = button.SlideButton(button_position_5, button_sizes, font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+    change_state_button_2 = button.PressButtonChangeState(font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
+    change_state_button_3 = button.PressButtonChangeState(font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
 
-    change_state_buttons = (change_state_button_2, change_state_button_3)
-    slide_buttons = (slide_button_1, slide_button_2)
+    slide_button_1 = button.SlideButton(font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+    slide_button_2 = button.SlideButton(font, white, screen, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+
+    block = buttonblock.Block((300, 300), (410, 410), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
+
+    change_state_buttons = block.get_press_buttons_change_state()
+    slide_buttons = block.get_slide_buttons()
+    # slide_buttons = []
+    print(slide_buttons[0].get_position())
+    print(slide_buttons[0].get_size())
     loop_exit = False
 
     # draw title
