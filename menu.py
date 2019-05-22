@@ -27,6 +27,7 @@ class MainMenu:
         self.__buttons_block = buttons_block
         self.__set_block_position()
         self.__buttons_block.set_screen_display(screen_display)
+        self.__buttons_block.update_buttons()
 
     def __set_title_position(self):
         if self.__title_size[0] > self.__block_size[0]:
