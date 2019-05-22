@@ -1,3 +1,8 @@
-Class menu
+Class menu:
 
-change screen_display buttons to screen_display = None
+loop() method for the menu loop
+
+update_change_state_buttons()
+update_slide_buttons()
+
+inside loop call update_change_state_buttons() inside change_state_buttons for loop and update_slide_buttons() inside slide_buttons for loop
