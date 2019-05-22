@@ -1,8 +1,5 @@
-Class menu:
+Set location of bar in slide buttons to middle when bar is pressed
 
-loop() method for the menu loop
+Rename current class block to type 1
 
-update_change_state_buttons()
-update_slide_buttons()
-
-inside loop call update_change_state_buttons() inside change_state_buttons for loop and update_slide_buttons() inside slide_buttons for loop
+Create class block buttons type 2
