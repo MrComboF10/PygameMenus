@@ -1,3 +1,5 @@
-Class menu
+Set location of bar in slide buttons to middle when bar is pressed
 
-change screen_display buttons to screen_display = None
+Rename current class block to type 1
+
+Create class block buttons type 2
