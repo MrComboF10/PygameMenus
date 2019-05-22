@@ -1,7 +1,11 @@
 import pygame
 
+
 class MainMenu:
     def __init__(self, screen_display, title, buttons_block):
+
+        # self.__position = position
+        # self.__sizes = sizes
         self.__screen_display = screen_display
 
         title.set_screen_display(screen_display)

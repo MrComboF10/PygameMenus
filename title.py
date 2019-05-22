@@ -15,5 +15,8 @@ class Title:
     def set_font_surface_center(self):
         self.__font_surface_rect.center = self.__center_position
 
+    def get_rect(self):
+        return self.__font_surface_rect
+
     def draw(self):
         self.__screen_display.blit(self.__font_surface, self.__font_surface_rect)

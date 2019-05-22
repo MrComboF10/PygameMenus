@@ -42,4 +42,7 @@ class Block:
     def get_slide_buttons(self):
         return self.__slide_buttons
 
+    def get_size(self):
+        return self.__size
+
 
