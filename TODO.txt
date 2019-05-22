@@ -1,5 +1,4 @@
-Set location of bar in slide buttons to middle when bar is pressed
+Create superclass Block
 
-Rename current class block to type 1
-
-Create class block buttons type 2
+Rename class BlockType1
+Create class BlockType2
