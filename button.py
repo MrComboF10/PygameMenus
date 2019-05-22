@@ -179,14 +179,14 @@ class SlideButton(Button):
         self.__bar_pressed = False
 
     def calculate_bar_position(self):
-        if self._current_mouse_position[0] > self._position[0] + self._size[0] - self.__bar_width:
+        if self._current_mouse_position[0] >= self._position[0] + self._size[0] - self.__bar_width // 2:
             self.__current_bar_position = (self._position[0] + self._size[0] - self.__bar_width, self._position[1])
 
-        elif self._current_mouse_position[0] < self._position[0]:
+        elif self._current_mouse_position[0] <= self._position[0] + self.__bar_width // 2:
             self.__current_bar_position = self._position
 
         else:
-            self.__current_bar_position = (self._current_mouse_position[0], self._position[1])
+            self.__current_bar_position = (self._current_mouse_position[0] - self.__bar_width // 2, self._position[1])
 
     def calculate_current_item(self):
         self.__current_item = self.__range_items[int((self.__current_bar_position[0] - self._position[0]) * ((len(self.__range_items) - 1) / (self._size[0] - self.__bar_width)))]

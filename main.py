@@ -13,8 +13,8 @@ def menu_loop():
     screen.fill(white)
     pygame.display.update()
 
-    font = pygame.font.SysFont("Arial", 25)
-    title_font = pygame.font.SysFont("Arial", 50, True)
+    font = pygame.font.SysFont("Arial", 30)
+    title_font = pygame.font.SysFont("Arial", 100, True)
 
     states_list = ("Fácil", "Médio", "Difícil")
     mouse_over_button_color = (150, 150, 255)
@@ -31,9 +31,9 @@ def menu_loop():
     slide_button_1 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
     slide_button_2 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
 
-    block = buttonblock.Block((400, 400), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
+    block = buttonblock.Block((500, 500), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
 
-    main_menu = menu.MainMenu((100, 100), screen, title_1, block, 20)
+    main_menu = menu.MainMenu((100, 100), screen, title_1, block, 50)
 
     main_menu.loop()
 
