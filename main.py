@@ -9,12 +9,12 @@ white = (255, 255, 255)
 
 def menu_loop():
     pygame.init()
-    screen = pygame.display.set_mode((1000, 1000))
+    screen = pygame.display.set_mode((800, 800))
     screen.fill(white)
     pygame.display.update()
 
     font = pygame.font.SysFont("Arial", 25)
-    title_font = pygame.font.SysFont("Arial", 100, True)
+    title_font = pygame.font.SysFont("Arial", 50, True)
 
     states_list = ("Fácil", "Médio", "Difícil")
     mouse_over_button_color = (150, 150, 255)
@@ -23,9 +23,7 @@ def menu_loop():
     bar_width = 15
     range_items = range(101)
 
-    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEPER", (500, 100))
-
-    # change_state_button_1 = button.PressButtonChangeState(button_position_1, button_sizes, font, white, screen, mouse_out_button_color, mouse_over_button_color, states_list)
+    title_1 = title.Title(title_font, (200, 200, 200), "MINESWEEPER")
 
     change_state_button_2 = button.PressButtonChangeState(font, white, mouse_out_button_color, mouse_over_button_color, states_list)
     change_state_button_3 = button.PressButtonChangeState(font, white, mouse_out_button_color, mouse_over_button_color, states_list)
@@ -33,12 +31,9 @@ def menu_loop():
     slide_button_1 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
     slide_button_2 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
 
-    block = buttonblock.Block((300, 300), (600, 600), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
+    block = buttonblock.Block((400, 400), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
 
-    main_menu = menu.MainMenu(screen, title_1, block)
-
-    # change_state_buttons = block.get_press_buttons_change_state()
-    # slide_buttons = block.get_slide_buttons()
+    main_menu = menu.MainMenu((100, 100), screen, title_1, block, 20)
 
     change_state_buttons = main_menu.get_block().get_press_buttons_change_state()
     slide_buttons = main_menu.get_block().get_slide_buttons()
@@ -46,7 +41,6 @@ def menu_loop():
     loop_exit = False
 
     # draw title
-    title_1.set_font_surface_center()
     title_1.draw()
 
     # draw change buttons

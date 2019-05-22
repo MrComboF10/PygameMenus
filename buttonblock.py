@@ -1,5 +1,5 @@
 class Block:
-    def __init__(self, position, size, buttons, margin, screen_display=None):
+    def __init__(self, size, buttons, margin, position=None, screen_display=None):
         self.__position = position
         self.__size = size
         self.__screen_display = screen_display
@@ -20,6 +20,9 @@ class Block:
 
             elif type(button).__name__ == "SlideButton":
                 self.__slide_buttons.append(button)
+
+    def set_position(self, new_position):
+        self.__position = new_position
 
     def set_screen_display(self, new_screen):
 
