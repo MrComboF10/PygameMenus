@@ -1,4 +1,5 @@
-Create superclass Block
+Test menu
 
-Rename class BlockType1
-Create class BlockType2
+Change PressButtonStatic name to something I do not remember :)
+
+Explain how to use this modules
