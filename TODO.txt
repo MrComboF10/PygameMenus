@@ -1,5 +1,3 @@
-Test menu
+Create calculate buttons sizes functions in classes blocks
 
-Change PressButtonStatic name to something I do not remember :)
-
-Explain how to use this modules
+Add function get size and use function update in menu loop to update bottons sizes
