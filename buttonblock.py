@@ -48,6 +48,9 @@ class BlockType1(Block):
         # calculate buttons sizes
         self.__buttons_sizes = (size[0], (size[1] - margin * (len(buttons) - 1)) // len(buttons))
 
+    def calculate_buttons_sizes(self):
+        self.__buttons_sizes = (self._size[0], (self._size[1] - self.__margin * (len(self._buttons) - 1)) // len(self._buttons))
+
     def update_buttons(self):
         # set buttons display, sizes and positions
         margin_counter = 0

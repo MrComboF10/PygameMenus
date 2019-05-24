@@ -68,7 +68,7 @@ class PressButton(Button):
         super().draw_button(self._mouse_over_button_color, text)
 
 
-class PressButtonStatic(PressButton):
+class PressButtonRedirect(PressButton):
     def __init__(self, font, font_color, mouse_out_button_color, mouse_over_button_color, text, pointer, position=None, size=None, screen_display=None):
 
         super().__init__(position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color)

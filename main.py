@@ -6,6 +6,8 @@ import menu
 
 white = (255, 255, 255)
 
+# ola
+
 
 def menu_loop():
     pygame.init()
