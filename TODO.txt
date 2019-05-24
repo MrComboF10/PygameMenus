@@ -1,3 +1,5 @@
-Create calculate buttons sizes functions in classes blocks
+Create calculate buttons sizes functions in classes blocks (Done)
+
+Delete current_mouse_position class button
 
 Add function get size and use function update in menu loop to update bottons sizes
