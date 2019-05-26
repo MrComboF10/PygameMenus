@@ -9,12 +9,8 @@ class Button:
         self._font_color = font_color
         self._screen_display = screen_display
 
-        self._current_mouse_position = (0, 0)
         self._mouse_over_button = False
         self._mouse_location_changed = False
-
-    def set_current_mouse_position(self, mouse_position):
-        self._current_mouse_position = mouse_position
 
     def set_mouse_location_changed(self, change):
         self._mouse_location_changed = change
@@ -25,10 +21,10 @@ class Button:
     def get_mouse_location_changed(self):
         return self._mouse_location_changed
 
-    def verify_mouse_on_button(self):
+    def verify_mouse_on_button(self, current_mouse_position):
         self._mouse_over_button = False
-        if self._position[0] < self._current_mouse_position[0] < self._position[0] + self._size[0]:
-            if self._position[1] < self._current_mouse_position[1] < self._position[1] + self._size[1]:
+        if self._position[0] < current_mouse_position[0] < self._position[0] + self._size[0]:
+            if self._position[1] < current_mouse_position[1] < self._position[1] + self._size[1]:
                 self._mouse_over_button = True
 
     def draw_button(self, color, text):
@@ -68,7 +64,7 @@ class PressButton(Button):
         super().draw_button(self._mouse_over_button_color, text)
 
 
-class PressButtonStatic(PressButton):
+class PressButtonRedirect(PressButton):
     def __init__(self, font, font_color, mouse_out_button_color, mouse_over_button_color, text, pointer, position=None, size=None, screen_display=None):
 
         super().__init__(position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color)
@@ -178,15 +174,15 @@ class SlideButton(Button):
     def release_bar(self):
         self.__bar_pressed = False
 
-    def calculate_bar_position(self):
-        if self._current_mouse_position[0] >= self._position[0] + self._size[0] - self.__bar_width // 2:
+    def calculate_bar_position(self, current_mouse_position):
+        if current_mouse_position[0] >= self._position[0] + self._size[0] - self.__bar_width // 2:
             self.__current_bar_position = (self._position[0] + self._size[0] - self.__bar_width, self._position[1])
 
-        elif self._current_mouse_position[0] <= self._position[0] + self.__bar_width // 2:
+        elif current_mouse_position[0] <= self._position[0] + self.__bar_width // 2:
             self.__current_bar_position = self._position
 
         else:
-            self.__current_bar_position = (self._current_mouse_position[0] - self.__bar_width // 2, self._position[1])
+            self.__current_bar_position = (current_mouse_position[0] - self.__bar_width // 2, self._position[1])
 
     def calculate_current_item(self):
         self.__current_item = self.__range_items[int((self.__current_bar_position[0] - self._position[0]) * ((len(self.__range_items) - 1) / (self._size[0] - self.__bar_width)))]

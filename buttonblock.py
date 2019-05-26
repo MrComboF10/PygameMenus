@@ -1,3 +1,6 @@
+import utils
+
+
 class Block:
     def __init__(self, size, buttons, position=None, screen_display=None):
         self._position = position
@@ -6,7 +9,7 @@ class Block:
         self._buttons = buttons
 
         # separate buttons by type
-        self._press_buttons_static, self._press_buttons_change_state, self._slide_buttons = [], [], []
+        self._press_buttons_redirect, self._press_buttons_change_state, self._slide_buttons = [], [], []
         self._separate_buttons_type()
 
     def set_position(self, new_position):
@@ -17,8 +20,8 @@ class Block:
 
     def _separate_buttons_type(self):
         for button in self._buttons:
-            if type(button).__name__ == "PressButtonStatic":
-                self._press_buttons_static.append(button)
+            if type(button).__name__ == "PressButtonRedirect":
+                self._press_buttons_redirect.append(button)
 
             elif type(button).__name__ == "PressButtonChangeState":
                 self._press_buttons_change_state.append(button)
@@ -26,8 +29,8 @@ class Block:
             elif type(button).__name__ == "SlideButton":
                 self._slide_buttons.append(button)
 
-    def get_press_buttons_static(self):
-        return self._press_buttons_static
+    def get_press_buttons_redirect(self):
+        return self._press_buttons_redirect
 
     def get_press_buttons_change_state(self):
         return self._press_buttons_change_state
@@ -35,18 +38,25 @@ class Block:
     def get_slide_buttons(self):
         return self._slide_buttons
 
-    def get_size(self):
+    def get_sizes(self):
         return self._size
 
+    def get_position(self):
+        return self._position
 
-class BlockType1(Block):
+
+class Block1Column(Block):
     def __init__(self, size, buttons, margin, position=None, screen_display=None):
 
         super().__init__(size, buttons, position, screen_display)
         self.__margin = margin
 
         # calculate buttons sizes
-        self.__buttons_sizes = (size[0], (size[1] - margin * (len(buttons) - 1)) // len(buttons))
+        self.__buttons_sizes = None
+        self.calculate_buttons_sizes()
+
+    def calculate_buttons_sizes(self):
+        self.__buttons_sizes = (self._size[0], (self._size[1] - self.__margin * (len(self._buttons) - 1)) // len(self._buttons))
 
     def update_buttons(self):
         # set buttons display, sizes and positions
@@ -58,7 +68,7 @@ class BlockType1(Block):
             margin_counter += self.__margin + self.__buttons_sizes[1]
 
 
-class BlockType2(Block):
+class Block2Columns(Block):
     def __init__(self, size, buttons, margin_height, margin_width, position=None, screen_display=None):
         super().__init__(size, buttons, position, screen_display)
 
@@ -66,7 +76,11 @@ class BlockType2(Block):
         self.__margin_width = margin_width
 
         # calculate buttons sizes
-        self.__buttons_sizes = ((self._size[0] - margin_width) // 2, (size[1] - margin_height * (len(buttons) - 1)) // len(buttons))
+        self.__buttons_sizes = None
+        self.calculate_buttons_sizes()
+
+    def calculate_buttons_sizes(self):
+        self.__buttons_sizes = ((self._size[0] - self.__margin_width) // 2, (self._size[1] - self.__margin_height * utils.ceiling_division(len(self._buttons) - 2, 2)) // utils.ceiling_division(len(self._buttons), 2))
 
     def update_buttons(self):
         # set buttons display, sizes and positions
