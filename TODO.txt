@@ -1,4 +1,6 @@
-Solve buttons size block2columns (Done)
+Fix menu center resize (Done)
+
+Create scales menu rect ratios
 
 Create functon to draw buttons in block
 
