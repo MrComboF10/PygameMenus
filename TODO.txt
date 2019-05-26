@@ -1,5 +1,3 @@
-Solve problems event VIDEORESIZE
-
-Update block buttons to draw buttons after resize
+Solve buttons size block2columns
 
 Add function get size and use function update in menu loop to update buttons sizes
