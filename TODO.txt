@@ -1,7 +1,3 @@
-Create calculate buttons sizes functions in classes blocks (Done)
+Solve problems event VIDEORESIZE
 
-Delete current_mouse_position class button (Done)
-
-Make buttons font text porportional to button sizes -> fonte size ratio
-
-Add function get size and use function update in menu loop to update bottons sizes
+Add function get size and use function update in menu loop to update buttons sizes
