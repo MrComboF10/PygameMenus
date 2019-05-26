@@ -4,15 +4,17 @@ white = (255, 255, 255)
 
 
 class MainMenu:
-    def __init__(self, position, screen_display, title, buttons_block, margin):
+    def __init__(self, screen_display, title, buttons_block, margin):
 
-        self.__position = position
         self.__screen_display = screen_display
         self.__margin = margin
 
         self.__title_size = title.get_size()
-        self.__block_size = buttons_block.get_size()
+        self.__block_size = buttons_block.get_sizes()
+        self.__menu_sizes = None
 
+        self.__position = None
+        self.__set_position(self.__calculate_position((screen_display.get_rect()[2], screen_display.get_rect()[3])))
         self.__current_mouse_position = (0, 0)
         self.__current_event = None
         self.__mouse_left_pressed = None
@@ -28,6 +30,19 @@ class MainMenu:
         self.__set_block_position()
         self.__buttons_block.set_screen_display(screen_display)
         self.__buttons_block.update_buttons()
+
+    def __set_size(self):
+        if self.__title_size[0] > self.__block_size[0]:
+            self.__menu_sizes = (self.__title_size[0], self.__title_size[1] + self.__margin + self.__block_size[1])
+        else:
+            self.__menu_sizes = (self.__block_size[0], self.__title_size[1] + self.__margin + self.__block_size[1])
+
+    def __calculate_position(self, screen_size):
+        self.__set_size()
+        return screen_size[0] // 2 - self.__menu_sizes[0] // 2, screen_size[1] // 2 - self.__menu_sizes[1] // 2
+
+    def __set_position(self, position):
+        self.__position = position
 
     def __set_title_position(self):
         if self.__title_size[0] > self.__block_size[0]:
@@ -56,11 +71,9 @@ class MainMenu:
 
         for change_button in self.__buttons_block.get_press_buttons_change_state():
 
-            change_button.set_current_mouse_position(self.__current_mouse_position)
-
             # get mouse location before and after to verify if mouse location has changed
             mouse_location_before = change_button.get_mouse_over_button()
-            change_button.verify_mouse_on_button()
+            change_button.verify_mouse_on_button(self.__current_mouse_position)
             mouse_location_after = change_button.get_mouse_over_button()
 
             # verify if mouse location inside or outside button changed
@@ -94,10 +107,8 @@ class MainMenu:
 
         for slide_button in self.__buttons_block.get_slide_buttons():
 
-            slide_button.set_current_mouse_position(self.__current_mouse_position)
-
             mouse_location_before = slide_button.get_mouse_over_button()
-            slide_button.verify_mouse_on_button()
+            slide_button.verify_mouse_on_button(self.__current_mouse_position)
             mouse_location_after = slide_button.get_mouse_over_button()
 
             if mouse_location_before != mouse_location_after or self.__change_location:
@@ -132,7 +143,7 @@ class MainMenu:
                     self.__change_location = True
 
             if slide_button.get_bar_is_pressed():
-                slide_button.calculate_bar_position()
+                slide_button.calculate_bar_position(self.__current_mouse_position)
                 slide_button.calculate_current_item()
                 slide_button.draw_mouse_over_slide_button()
                 pygame.display.update()
@@ -166,6 +177,30 @@ class MainMenu:
                     # if esc is pressed exit
                     if self.__current_event.key == pygame.K_ESCAPE:
                         loop_exit = True
+
+                # resize screen
+                if self.__current_event.type == pygame.VIDEORESIZE:
+
+                    self.__screen_display = pygame.display.set_mode(self.__current_event.size, pygame.RESIZABLE)
+                    self.__set_position(self.__calculate_position(self.__current_event.size))
+                    self.__set_title_position()
+                    self.__set_block_position()
+                    self.__buttons_block.update_buttons()
+
+                    self.__screen_display.fill((255, 255, 255))
+
+                    # draw title
+                    self.__title.draw()
+
+                    # draw change buttons
+                    for change_button in self.__buttons_block.get_press_buttons_change_state():
+                        change_button.draw_mouse_out_change_state_button()
+                    pygame.display.update()
+
+                    # draw slide buttons
+                    for slide_button in self.__buttons_block.get_slide_buttons():
+                        slide_button.draw_mouse_out_slide_button()
+                    pygame.display.update()
 
                 self.__current_mouse_position = pygame.mouse.get_pos()
                 self.__mouse_left_pressed = pygame.mouse.get_pressed()[0]

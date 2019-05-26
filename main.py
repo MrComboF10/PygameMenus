@@ -6,9 +6,10 @@ import menu
 
 white = (255, 255, 255)
 
+
 def menu_loop():
     pygame.init()
-    screen = pygame.display.set_mode((800, 800))
+    screen = pygame.display.set_mode((800, 800), pygame.RESIZABLE)
     screen.fill(white)
     pygame.display.update()
 
@@ -30,12 +31,14 @@ def menu_loop():
     slide_button_1 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
     slide_button_2 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
 
-    block1 = buttonblock.BlockType1((500, 500), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
-    block2 = buttonblock.BlockType2((500, 500), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20, 20)
+    long_block = buttonblock.Block1Column((500, 500), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
+    short_block = buttonblock.Block2Columns((500, 400), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20, 20)
 
-    main_menu = menu.MainMenu((100, 100), screen, title_1, block2, 50)
+    main_menu = menu.MainMenu(screen, title_1, short_block, 50)
 
     main_menu.loop()
 
 
 menu_loop()
+
+pygame.quit()
