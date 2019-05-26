@@ -1,3 +1,5 @@
-Solve buttons size block2columns
+Solve buttons size block2columns (Done)
+
+Create functon to draw buttons in block
 
 Add function get size and use function update in menu loop to update buttons sizes
