@@ -1,5 +1,9 @@
 Fix menu center resize (Done)
 
+Resize design images in github
+
+Create menu offside rect
+
 Create scales menu rect ratios
 
 Create functon to draw buttons in block
