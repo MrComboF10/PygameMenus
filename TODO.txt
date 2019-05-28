@@ -1,5 +1,7 @@
 Fix menu center resize (Done)
 
+Create class derived from superclass block2columns
+
 Resize design images in github
 
 Create menu offside rect
