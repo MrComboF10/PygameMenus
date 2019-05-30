@@ -1,8 +1,8 @@
 Fix menu center resize (Done)
 
-Finish function to update button sizes and position in buttons block
+Finish function to update button sizes and position in buttons block (Done)
 
-Remeber to use the none object blocks in block matrix and update position
+Remeber to use the none object blocks in block matrix and update position (Done)
 
 Resize design images in github
 
