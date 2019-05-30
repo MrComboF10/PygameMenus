@@ -1,6 +1,8 @@
 Fix menu center resize (Done)
 
-Create class derived from superclass block2columns
+Finish function to update button sizes and position in buttons block
+
+Remeber to use the none object blocks in block matrix and update position
 
 Resize design images in github
 
