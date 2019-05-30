@@ -10,6 +10,6 @@ Create menu offside rect
 
 Create scales menu rect ratios
 
-Create functon to draw buttons in block
+Create functon to draw buttons in block (compact code)
 
 Add function get size and use function update in menu loop to update buttons sizes
