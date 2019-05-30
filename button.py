@@ -10,23 +10,29 @@ class Button:
         self._screen_display = screen_display
 
         self._mouse_over_button = False
+
         self._mouse_location_changed = False
 
+    # set if mouse cursor was inside or outside button area
     def set_mouse_location_changed(self, change):
         self._mouse_location_changed = change
 
+    # get if mouse is over button area
     def get_mouse_over_button(self):
         return self._mouse_over_button
 
+    # get if mouse cursor was inside or outside button area
     def get_mouse_location_changed(self):
         return self._mouse_location_changed
 
+    # verify if current mouse cursor is over button area
     def verify_mouse_on_button(self, current_mouse_position):
         self._mouse_over_button = False
         if self._position[0] < current_mouse_position[0] < self._position[0] + self._size[0]:
             if self._position[1] < current_mouse_position[1] < self._position[1] + self._size[1]:
                 self._mouse_over_button = True
 
+    # draw button on screen
     def draw_button(self, color, text):
 
         # draw button rectangle

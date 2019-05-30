@@ -9,6 +9,8 @@ white = (255, 255, 255)
 
 def menu_loop():
     pygame.init()
+    appname = "PESTINHA"
+    pygame.display.set_caption(appname)
     screen = pygame.display.set_mode((800, 800), pygame.RESIZABLE)
     screen.fill(white)
     pygame.display.update()
@@ -30,11 +32,13 @@ def menu_loop():
 
     slide_button_1 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
     slide_button_2 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+    slide_button_3 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color, mouse_over_button_color, slide_button_color)
+    slide_button_4 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color,mouse_over_button_color, slide_button_color)
+    slide_button_5 = button.SlideButton(font, white, bar_width, range_items, mouse_out_button_color,mouse_over_button_color, slide_button_color)
 
-    long_block = buttonblock.Block1Column((500, 500), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20)
-    short_block = buttonblock.Block2Columns((500, 400), (change_state_button_2, change_state_button_3, slide_button_1, slide_button_2), 20, 20)
+    block2 = buttonblock.Block((500, 500), ((change_state_button_2,), (change_state_button_3,), (None,), (slide_button_2, slide_button_3, slide_button_4)), 20, 30)
 
-    main_menu = menu.MainMenu(screen, title_1, short_block, 50)
+    main_menu = menu.MainMenu(screen, title_1, block2, 50)
 
     main_menu.loop()
 
