@@ -4,9 +4,9 @@ Finish function to update button sizes and position in buttons block (Done)
 
 Remeber to use the none object blocks in block matrix and update position (Done)
 
-Resize design images in github
+Create class Text to recive text string and screen display as parameters and render font
 
-Create menu offside rect
+Resize design images in github
 
 Create scales menu rect ratios
 
