@@ -4,6 +4,8 @@ Finish function to update button sizes and position in buttons block (Done)
 
 Remeber to use the none object blocks in block matrix and update position (Done)
 
+Add to class MainMenu parameter max_menu_size for resizing
+
 Add functions to loop to resize objects
 
 Resize design images in github
