@@ -4,7 +4,7 @@ Finish function to update button sizes and position in buttons block (Done)
 
 Remeber to use the none object blocks in block matrix and update position (Done)
 
-Create class Text to recive text string and screen display as parameters and render font
+Add functions to loop to resize objects
 
 Resize design images in github
 
