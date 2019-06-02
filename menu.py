@@ -4,60 +4,71 @@ white = (255, 255, 255)
 
 
 class MainMenu:
-    def __init__(self, screen_display, title, buttons_block, title_block_margin):
+    def __init__(self, screen_display, title, buttons_block, title_block_margin, max_menu_size_ratio, resize_ratio):
 
         self.__screen_display = screen_display
         self.__title_block_margin = title_block_margin
+        self.__max_menu_size_ratio = max_menu_size_ratio
+        self.__max_menu_size = self.__calculate_max_menu_size()
+        self.__resize_ratio = resize_ratio
+        self.__title = title
+        self.__buttons_block = buttons_block
 
-        self.__title_size = title.get_size()
-        self.__block_size = buttons_block.get_size()
-        self.__menu_sizes = None
+        self.__menu_size = None
 
         self.__position = None
+
+        # set menu position in screen
+        self.__calculate_size()
         self.__set_position(self.__calculate_position((screen_display.get_rect()[2], screen_display.get_rect()[3])))
+
+        # initial mouse position
         self.__current_mouse_position = (0, 0)
         self.__current_event = None
         self.__mouse_left_pressed = None
+
+        # verify if the user released bar when the mouse is outside slide button
         self.__release_slide_button_bar = True
 
+        # verify if menu is bigger max menu size
+        self.__menu_too_big = False
+
+        # verify if menu can grow
+        self.__menu_too_small = False
+
         # configure title
-        self.__title = title
-        self.__set_title_position()
-        self.__title.set_screen_display(screen_display)
+        self.__configure_title()
 
         # configure buttons block
-        self.__buttons_block = buttons_block
-        self.__set_block_position()
-        self.__buttons_block.set_screen_display(screen_display)
-        self.__buttons_block.update_buttons()
-
-    def __set_size(self):
-        if self.__title_size[0] > self.__block_size[0]:
-            self.__menu_sizes = (self.__title_size[0], self.__title_size[1] + self.__title_block_margin + self.__block_size[1])
-        else:
-            self.__menu_sizes = (self.__block_size[0], self.__title_size[1] + self.__title_block_margin + self.__block_size[1])
-
-    def __calculate_position(self, screen_size):
-        self.__set_size()
-        return screen_size[0] // 2 - self.__menu_sizes[0] // 2, screen_size[1] // 2 - self.__menu_sizes[1] // 2
+        self.__configure_buttons_block()
 
     def __set_position(self, position):
         self.__position = position
 
     def __set_title_position(self):
-        if self.__title_size[0] > self.__block_size[0]:
+        if self.__title.get_size()[0] > self.__buttons_block.get_size()[0]:
             position = self.__position
         else:
-            position = (self.__position[0] + self.__block_size[0] // 2 - self.__title_size[0] // 2, self.__position[1])
+            position = (self.__position[0] + self.__buttons_block.get_size()[0] // 2 - self.__title.get_size()[0] // 2, self.__position[1])
 
         self.__title.set_position(position)
 
+    def __configure_title(self):
+        self.__set_title_position()
+        self.__title.set_screen_display(self.__screen_display)
+        self.__title.update_title_text()
+
+    def __configure_buttons_block(self):
+        self.__set_block_position()
+        self.__buttons_block.set_screen_display(self.__screen_display)
+        self.__buttons_block.update_buttons_appearance_in_block()
+
     def __set_block_position(self):
-        if self.__title_size[0] > self.__block_size[0]:
-            position = (self.__position[0] + self.__title_size[0] // 2 - self.__block_size[0] // 2,
-                        self.__position[1] + self.__title_size[1] + self.__title_block_margin)
+        if self.__title.get_size()[0] > self.__buttons_block.get_size()[0]:
+            position = (self.__position[0] + self.__title.get_size()[0] // 2 - self.__buttons_block.get_size()[0] // 2,
+                        self.__position[1] + self.__title.get_size()[1] + self.__title_block_margin)
         else:
-            position = (self.__position[0], self.__position[1] + self.__title_size[1] + self.__title_block_margin)
+            position = (self.__position[0], self.__position[1] + self.__title.get_size()[1] + self.__title_block_margin)
 
         self.__buttons_block.set_position(position)
 
@@ -66,6 +77,72 @@ class MainMenu:
 
     def get_block(self):
         return self.__buttons_block
+
+    def __calculate_size(self):
+        if self.__title.get_size()[0] > self.__buttons_block.get_size()[0]:
+            self.__menu_size = (self.__title.get_size()[0], self.__title.get_size()[1] + self.__title_block_margin + self.__buttons_block.get_size()[1])
+        else:
+            self.__menu_size = (self.__buttons_block.get_size()[0], self.__title.get_size()[1] + self.__title_block_margin + self.__buttons_block.get_size()[1])
+
+    def __calculate_position(self, screen_size):
+        return screen_size[0] // 2 - self.__menu_size[0] // 2, screen_size[1] // 2 - self.__menu_size[1] // 2
+
+    def __calculate_max_menu_size(self):
+        return int(self.__screen_display.get_size()[0] * self.__max_menu_size_ratio[0]), int(self.__screen_display.get_size()[1] * self.__max_menu_size_ratio[1])
+
+    def __verify_menu_too_big(self):
+        if self.__menu_size[0] > self.__max_menu_size[0] or self.__menu_size[1] > self.__max_menu_size[1]:
+            self.__menu_too_big = True
+        else:
+            self.__menu_too_big = False
+
+    def __verify_menu_too_small(self):
+        if int(self.__menu_size[0] * (2 - self.__resize_ratio)) <= self.__max_menu_size[0] and int(self.__menu_size[1] * (2 - self.__resize_ratio)) <= self.__max_menu_size[1]:
+            self.__menu_too_small = True
+        else:
+            self.__menu_too_small = False
+
+    def __decrease_size_title_block(self):
+        title_current_font_size = self.__title.get_font_size()
+        buttons_font_size = self.__buttons_block.get_press_buttons_change_state()[0].get_font_size()
+        block_current_size = self.__buttons_block.get_size()
+
+        new_title_font_size = int(title_current_font_size * self.__resize_ratio)
+        new_buttons_font_size = int(buttons_font_size * self.__resize_ratio)
+        new_block_size = int(block_current_size[0] * self.__resize_ratio), int(block_current_size[1] * self.__resize_ratio)
+
+        # resize title
+        self.__title.set_font_size(new_title_font_size)
+
+        # resize block font
+        self.__buttons_block.set_buttons_font_size(new_buttons_font_size)
+
+        # resize block
+        self.__buttons_block.set_size(new_block_size)
+
+        # resize margin
+        self.__title_block_margin = int(self.__title_block_margin * self.__resize_ratio)
+
+    def __increase_size_title_block(self):
+        title_current_font_size = self.__title.get_font_size()
+        buttons_font_size = self.__buttons_block.get_press_buttons_change_state()[0].get_font_size()
+        block_current_size = self.__buttons_block.get_size()
+
+        new_title_font_size = int(title_current_font_size * (2 - self.__resize_ratio))
+        new_buttons_font_size = int(buttons_font_size * (2 - self.__resize_ratio))
+        new_block_size = int(block_current_size[0] * (2 - self.__resize_ratio)), int(block_current_size[1] * (2 - self.__resize_ratio))
+
+        # resize title
+        self.__title.set_font_size(new_title_font_size)
+
+        # resize block font
+        self.__buttons_block.set_buttons_font_size(new_buttons_font_size)
+
+        # resize block
+        self.__buttons_block.set_size(new_block_size)
+
+        # resize margin
+        self.__title_block_margin = int(self.__title_block_margin * (2 - self.__resize_ratio))
 
     def __update_change_state_buttons(self):
 
@@ -223,12 +300,64 @@ class MainMenu:
                 # resize screen
                 if self.__current_event.type == pygame.VIDEORESIZE:
 
+                    # set new screen display
                     self.__screen_display = pygame.display.set_mode(self.__current_event.size, pygame.RESIZABLE)
-                    self.__set_position(self.__calculate_position(self.__current_event.size))
-                    self.__set_title_position()
-                    self.__set_block_position()
-                    self.__buttons_block.update_buttons()
 
+                    # update menu size
+                    self.__max_menu_size = self.__calculate_max_menu_size()
+
+                    # verify if menu is bigger than max menu size
+                    self.__verify_menu_too_big()
+
+                    # verify if menu can grow
+                    self.__verify_menu_too_small()
+
+                    while self.__menu_too_big:
+
+                        # resize title and block
+                        self.__decrease_size_title_block()
+
+                        # update title
+                        self.__configure_title()
+
+                        # set new block position
+                        self.__configure_buttons_block()
+
+                        # set new menu size
+                        self.__calculate_size()
+
+                        # verify if menu is bigger than max menu size
+                        self.__verify_menu_too_big()
+
+                    while self.__menu_too_small:
+                        # resize title and block
+                        self.__increase_size_title_block()
+
+                        # update title
+                        self.__configure_title()
+
+                        # set new block position
+                        self.__configure_buttons_block()
+
+                        # set new menu size
+                        self.__calculate_size()
+
+                        # verify if menu can grow
+                        self.__verify_menu_too_small()
+
+                    # set new menu size
+                    self.__calculate_size()
+
+                    # set new menu position
+                    self.__set_position(self.__calculate_position(self.__current_event.size))
+
+                    # set new title position
+                    self.__set_title_position()
+
+                    # set new block position
+                    self.__configure_buttons_block()
+
+                    # update screen display background
                     self.__screen_display.fill((255, 255, 255))
 
                     # draw title
