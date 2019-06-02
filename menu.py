@@ -106,9 +106,13 @@ class MainMenu:
     def __decrease_size_title_block(self):
         title_current_font_real_size = self.__title.get_font_real_size()
         block_current_real_size = self.__buttons_block.get_real_size()
+        block_current_vertical_real_margin = self.__buttons_block.get_vertical_real_margin()
+        block_current_horizontal_real_margin = self.__buttons_block.get_horizontal_real_margin()
 
         new_title_font_real_size = title_current_font_real_size * self.__resize_ratio
         new_block_real_size = block_current_real_size[0] * self.__resize_ratio, block_current_real_size[1] * self.__resize_ratio
+        new_block_current_vertical_real_margin = block_current_vertical_real_margin * self.__resize_ratio
+        new_block_current_horizontal_real_margin = block_current_horizontal_real_margin * self.__resize_ratio
 
         # resize title
         self.__title.set_font_real_size(new_title_font_real_size)
@@ -116,7 +120,11 @@ class MainMenu:
         # resize block
         self.__buttons_block.set_real_size(new_block_real_size)
 
-        # resize margin
+        # resize block margins
+        self.__buttons_block.set_vertical_real_margin(new_block_current_vertical_real_margin)
+        self.__buttons_block.set_horizontal_real_margin(new_block_current_horizontal_real_margin)
+
+        # resize title block margin
         self.__title_block_real_margin = self.__title_block_real_margin * self.__resize_ratio
         self.__title_block_margin = int(self.__title_block_real_margin)
 
@@ -135,9 +143,13 @@ class MainMenu:
     def __increase_size_title_block(self):
         title_current_font_real_size = self.__title.get_font_real_size()
         block_current_real_size = self.__buttons_block.get_real_size()
+        block_current_vertical_real_margin = self.__buttons_block.get_vertical_real_margin()
+        block_current_horizontal_real_margin = self.__buttons_block.get_horizontal_real_margin()
 
         new_title_font_real_size = title_current_font_real_size * (2 - self.__resize_ratio)
         new_block_real_size = block_current_real_size[0] * (2 - self.__resize_ratio), block_current_real_size[1] * (2 - self.__resize_ratio)
+        new_block_current_vertical_real_margin = block_current_vertical_real_margin * (2 - self.__resize_ratio)
+        new_block_current_horizontal_real_margin = block_current_horizontal_real_margin * (2 - self.__resize_ratio)
 
         # resize title
         self.__title.set_font_real_size(new_title_font_real_size)
@@ -145,7 +157,11 @@ class MainMenu:
         # resize block
         self.__buttons_block.set_real_size(new_block_real_size)
 
-        # resize margin
+        # resize block margins
+        self.__buttons_block.set_vertical_real_margin(new_block_current_vertical_real_margin)
+        self.__buttons_block.set_horizontal_real_margin(new_block_current_horizontal_real_margin)
+
+        # resize title block margin
         self.__title_block_real_margin = self.__title_block_real_margin * (2 - self.__resize_ratio)
         self.__title_block_margin = int(self.__title_block_real_margin)
 

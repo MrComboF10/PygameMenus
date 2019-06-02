@@ -20,9 +20,6 @@ class TextButton:
     def set_size(self, new_size):
         self._size = new_size
 
-    # def set_real_size(self, new_real_size):
-    #     self._real_size = new_real_size
-
     def set_font_size(self, size):
         self._font.set_size(size)
         self._font.update()
@@ -43,9 +40,6 @@ class TextButton:
 
     def get_size(self):
         return self._size
-
-    # def get_real_size(self):
-    #     return self._real_size
 
     def get_font(self):
         return self._font

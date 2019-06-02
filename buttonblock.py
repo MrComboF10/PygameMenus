@@ -4,7 +4,9 @@ class Block:
         self.__real_size = size
         self.__buttons_matrix = buttons_matrix
         self.__vertical_margin = vertical_margin
+        self.__vertical_real_margin = vertical_margin
         self.__horizontal_margin = horizontal_margin
+        self.__horizontal_real_margin = horizontal_margin
         self.__position = position
         self.__screen_display = screen_display
 
@@ -29,6 +31,20 @@ class Block:
         self.__real_size = new_real_size
         self.__size = int(self.__real_size[0]), int(self.__real_size[1])
 
+    def set_vertical_margin(self, new_vertical_margin):
+        self.__vertical_margin = new_vertical_margin
+
+    def set_vertical_real_margin(self, new_vertical_real_margin):
+        self.__vertical_real_margin = new_vertical_real_margin
+        self.__vertical_margin = int(self.__vertical_real_margin)
+
+    def set_horizontal_margin(self, new_horizontal_margin):
+        self.__horizontal_margin = new_horizontal_margin
+
+    def set_horizontal_real_margin(self, new_horizontal_real_margin):
+        self.__horizontal_real_margin = new_horizontal_real_margin
+        self.__horizontal_margin = int(self.__horizontal_real_margin)
+
     def get_buttons(self):
         return self.get_press_buttons_redirect() + self.get_press_buttons_change_state() + self.get_slide_buttons()
 
@@ -52,6 +68,18 @@ class Block:
 
     def get_position(self):
         return self.__position
+
+    def get_vertical_margin(self):
+        return self.__vertical_margin
+
+    def get_vertical_real_margin(self):
+        return self.__vertical_real_margin
+
+    def get_horizontal_margin(self):
+        return self.__horizontal_margin
+
+    def get_horizontal_real_margin(self):
+        return self.__horizontal_real_margin
 
     def __separate_buttons_type(self):
         for buttons_row in self.__buttons_matrix:
