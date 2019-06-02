@@ -14,12 +14,12 @@ class Title:
     def set_position(self, new_position):
         self.__font_surface_rect.topleft = new_position
 
-    def set_font_size(self, size):
-        self.__font.set_size(size)
+    def set_font_real_size(self, size):
+        self.__font.set_real_size(size)
         self.__font.update()
 
-    def get_font_size(self):
-        return self.__font.get_size()
+    def get_font_real_size(self):
+        return self.__font.get_real_size()
 
     def get_rect(self):
         return self.__font_surface_rect

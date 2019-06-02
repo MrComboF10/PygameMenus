@@ -8,6 +8,7 @@ class MainMenu:
 
         self.__screen_display = screen_display
         self.__title_block_margin = title_block_margin
+        self.__title_block_real_margin = title_block_margin
         self.__max_menu_size_ratio = max_menu_size_ratio
         self.__max_menu_size = self.__calculate_max_menu_size()
         self.__resize_ratio = resize_ratio
@@ -103,46 +104,62 @@ class MainMenu:
             self.__menu_too_small = False
 
     def __decrease_size_title_block(self):
-        title_current_font_size = self.__title.get_font_size()
-        buttons_font_size = self.__buttons_block.get_press_buttons_change_state()[0].get_font_size()
-        block_current_size = self.__buttons_block.get_size()
+        title_current_font_real_size = self.__title.get_font_real_size()
+        block_current_real_size = self.__buttons_block.get_real_size()
 
-        new_title_font_size = int(title_current_font_size * self.__resize_ratio)
-        new_buttons_font_size = int(buttons_font_size * self.__resize_ratio)
-        new_block_size = int(block_current_size[0] * self.__resize_ratio), int(block_current_size[1] * self.__resize_ratio)
+        new_title_font_real_size = title_current_font_real_size * self.__resize_ratio
+        new_block_real_size = block_current_real_size[0] * self.__resize_ratio, block_current_real_size[1] * self.__resize_ratio
 
         # resize title
-        self.__title.set_font_size(new_title_font_size)
-
-        # resize block font
-        self.__buttons_block.set_buttons_font_size(new_buttons_font_size)
+        self.__title.set_font_real_size(new_title_font_real_size)
 
         # resize block
-        self.__buttons_block.set_size(new_block_size)
+        self.__buttons_block.set_real_size(new_block_real_size)
 
         # resize margin
-        self.__title_block_margin = int(self.__title_block_margin * self.__resize_ratio)
+        self.__title_block_real_margin = self.__title_block_real_margin * self.__resize_ratio
+        self.__title_block_margin = int(self.__title_block_real_margin)
+
+        # resize buttons text
+        for text_button in self.__buttons_block.get_text_buttons():
+            button_font_real_size = text_button.get_font_real_size()
+            new_button_font_real_size = button_font_real_size * self.__resize_ratio
+            text_button.set_font_real_size(new_button_font_real_size)
+
+        # resize slide buttons bar width
+        for slide_button in self.__buttons_block.get_slide_buttons():
+            slide_button_bar_real_width = slide_button.get_bar_real_width()
+            new_slide_button_bar_real_width = slide_button_bar_real_width * self.__resize_ratio
+            slide_button.set_bar_real_width(new_slide_button_bar_real_width)
 
     def __increase_size_title_block(self):
-        title_current_font_size = self.__title.get_font_size()
-        buttons_font_size = self.__buttons_block.get_press_buttons_change_state()[0].get_font_size()
-        block_current_size = self.__buttons_block.get_size()
+        title_current_font_real_size = self.__title.get_font_real_size()
+        block_current_real_size = self.__buttons_block.get_real_size()
 
-        new_title_font_size = int(title_current_font_size * (2 - self.__resize_ratio))
-        new_buttons_font_size = int(buttons_font_size * (2 - self.__resize_ratio))
-        new_block_size = int(block_current_size[0] * (2 - self.__resize_ratio)), int(block_current_size[1] * (2 - self.__resize_ratio))
+        new_title_font_real_size = title_current_font_real_size * (2 - self.__resize_ratio)
+        new_block_real_size = block_current_real_size[0] * (2 - self.__resize_ratio), block_current_real_size[1] * (2 - self.__resize_ratio)
 
         # resize title
-        self.__title.set_font_size(new_title_font_size)
-
-        # resize block font
-        self.__buttons_block.set_buttons_font_size(new_buttons_font_size)
+        self.__title.set_font_real_size(new_title_font_real_size)
 
         # resize block
-        self.__buttons_block.set_size(new_block_size)
+        self.__buttons_block.set_real_size(new_block_real_size)
 
         # resize margin
-        self.__title_block_margin = int(self.__title_block_margin * (2 - self.__resize_ratio))
+        self.__title_block_real_margin = self.__title_block_real_margin * (2 - self.__resize_ratio)
+        self.__title_block_margin = int(self.__title_block_real_margin)
+
+        # resize buttons text
+        for text_button in self.__buttons_block.get_text_buttons():
+            button_font_real_size = text_button.get_font_real_size()
+            new_button_font_real_size = button_font_real_size * (2 - self.__resize_ratio)
+            text_button.set_font_real_size(new_button_font_real_size)
+
+        # resize slide buttons bar width
+        for slide_button in self.__buttons_block.get_slide_buttons():
+            slide_button_bar_real_width = slide_button.get_bar_real_width()
+            new_slide_button_bar_real_width = slide_button_bar_real_width * (2 - self.__resize_ratio)
+            slide_button.set_bar_real_width(new_slide_button_bar_real_width)
 
     def __update_change_state_buttons(self):
 

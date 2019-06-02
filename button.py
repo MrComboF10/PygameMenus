@@ -1,10 +1,11 @@
 import pygame
 
 
-class Button:
+class TextButton:
     def __init__(self, position, size, font, font_color, screen_display):
         self._position = position
         self._size = size
+        self._real_size = size
         self._font = font
         self._font_color = font_color
         self._screen_display = screen_display
@@ -19,8 +20,15 @@ class Button:
     def set_size(self, new_size):
         self._size = new_size
 
+    # def set_real_size(self, new_real_size):
+    #     self._real_size = new_real_size
+
     def set_font_size(self, size):
         self._font.set_size(size)
+        self._font.update()
+
+    def set_font_real_size(self, new_real_size):
+        self._font.set_real_size(new_real_size)
         self._font.update()
 
     def set_screen_display(self, new_screen):
@@ -36,8 +44,17 @@ class Button:
     def get_size(self):
         return self._size
 
+    # def get_real_size(self):
+    #     return self._real_size
+
+    def get_font(self):
+        return self._font
+
     def get_font_size(self):
         return self._font.get_size()
+
+    def get_font_real_size(self):
+        return self._font.get_real_size()
 
     def get_screen_display(self):
         return self._screen_display
@@ -76,7 +93,7 @@ class Button:
         self._screen_display.blit(font_surface, font_surface_rect)
 
 
-class PressButton(Button):
+class PressButton(TextButton):
     def __init__(self, position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color):
 
         super().__init__(position, size, font, font_color, screen_display)
@@ -158,13 +175,13 @@ class PressButtonChangeState(PressButton):
         super().draw_mouse_over_button(self.__states_text_list[self.__current_state_text_index])
 
 
-class SlideButton(Button):
-    def __init__(self, font, font_color, bar_width_ratio, range_items, mouse_out_bar_color, mouse_over_bar_color, button_color, position=None, size=None, screen_display=None):
+class SlideButton(TextButton):
+    def __init__(self, font, font_color, bar_width, range_items, mouse_out_bar_color, mouse_over_bar_color, button_color, position=None, size=None, screen_display=None):
 
         super().__init__(position, size, font, font_color, screen_display)
 
-        self.__bar_width_ratio = bar_width_ratio
-        self.__bar_width = None
+        self.__bar_width = bar_width
+        self.__bar_real_width = bar_width
 
         # list of all items that can be displayed on button
         self.__range_items = range_items
@@ -188,6 +205,19 @@ class SlideButton(Button):
     def get_current_item(self):
         return self.__current_item
 
+    def get_bar_width(self):
+        return self.__bar_width
+
+    def get_bar_real_width(self):
+        return self.__bar_real_width
+
+    def set_bar_width(self, new_bar_width):
+        self.__bar_width = new_bar_width
+
+    def set_bar_real_width(self, new_bar_real_width):
+        self.__bar_real_width = new_bar_real_width
+        self.__bar_width = int(self.__bar_real_width)
+
     def update_bar_position(self):
         self.__current_bar_position = self._position
 
@@ -196,9 +226,6 @@ class SlideButton(Button):
 
     def release_bar(self):
         self.__bar_pressed = False
-
-    def calculate_bar_width(self):
-        self.__bar_width = int(self._size[0] * self.__bar_width_ratio)
 
     def calculate_bar_position(self, current_mouse_position):
         if current_mouse_position[0] >= self._position[0] + self._size[0] - self.__bar_width // 2:
