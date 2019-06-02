@@ -12,9 +12,13 @@ Resize design images in github (Done)
 
 Create scales menu rect ratios (Done)
 
-Add real_font_size to class Font
+Add real_font_size to class Font (Done)
 
-Add real_bar_size to class SlideButton
+Add real_bar_size to class SlideButton (Done)
+
+Fix bar position on resize
+
+Calculate bar position with current item
 
 Create functon to draw buttons in block (compact code)
 
