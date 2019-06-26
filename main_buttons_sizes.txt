@@ -1,4 +1,0 @@
-size 1: 800x80
-size 2: 600x60
-size 3: 400x40
-size 4: 200x20

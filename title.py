@@ -11,8 +11,8 @@ class Title:
     def set_screen_display(self, new_screen):
         self.__screen_display = new_screen
 
-    def set_position(self, new_position):
-        self.__font_surface_rect.topleft = new_position
+    def set_real_position(self, new_real_position):
+        self.__font_surface_rect.topleft = int(new_real_position[0]), int(new_real_position[1])
 
     def set_font_real_size(self, size):
         self.__font.set_real_size(size)

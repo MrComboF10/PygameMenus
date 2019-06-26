@@ -2,23 +2,27 @@ import pygame
 
 
 class TextButton:
-    def __init__(self, position, size, font, font_color, screen_display):
-        self._position = position
-        self._size = size
+    def __init__(self, position, size, font, screen_display, colors, width=0):
+        self._real_position = position
         self._real_size = size
         self._font = font
-        self._font_color = font_color
         self._screen_display = screen_display
+        self._colors = colors
+        self._width = width
+        self._real_width = None
+
+        if width > 1:
+            self._real_width = width
 
         self._mouse_over_button = False
 
         self._mouse_location_changed = False
 
-    def set_position(self, new_position):
-        self._position = new_position
+    def set_real_position(self, new_real_position):
+        self._real_position = new_real_position
 
-    def set_size(self, new_size):
-        self._size = new_size
+    def set_real_size(self, new_real_size):
+        self._real_size = new_real_size
 
     def set_font_size(self, size):
         self._font.set_size(size)
@@ -31,15 +35,21 @@ class TextButton:
     def set_screen_display(self, new_screen):
         self._screen_display = new_screen
 
+    def set_colors(self, new_colors):
+        self._colors = new_colors
+
+    def set_real_width(self, new_real_width):
+        self._real_width = new_real_width
+
     # set if mouse cursor was inside or outside button area
     def set_mouse_location_changed(self, change):
         self._mouse_location_changed = change
 
-    def get_position(self):
-        return self._position
+    def get_real_position(self):
+        return self._real_position
 
-    def get_size(self):
-        return self._size
+    def get_real_size(self):
+        return self._real_size
 
     def get_font(self):
         return self._font
@@ -53,6 +63,12 @@ class TextButton:
     def get_screen_display(self):
         return self._screen_display
 
+    def get_colors(self):
+        return self._colors
+
+    def get_real_width(self):
+        return self._real_width
+
     # get if mouse is over button area
     def get_mouse_over_button(self):
         return self._mouse_over_button
@@ -64,53 +80,49 @@ class TextButton:
     # verify if current mouse cursor is over button area
     def verify_mouse_on_button(self, current_mouse_position):
         self._mouse_over_button = False
-        if self._position[0] < current_mouse_position[0] < self._position[0] + self._size[0]:
-            if self._position[1] < current_mouse_position[1] < self._position[1] + self._size[1]:
+        if self._real_position[0] < current_mouse_position[0] < self._real_position[0] + self._real_size[0]:
+            if self._real_position[1] < current_mouse_position[1] < self._real_position[1] + self._real_size[1]:
                 self._mouse_over_button = True
 
-    # draw button on screen
-    def draw_button(self, color, text):
+    def update_real_width(self):
+        self._real_width = min(self._real_size) * self._width
 
-        # draw button rectangle
-        pygame.draw.rect(self._screen_display, color, (self._position[0], self._position[1], self._size[0], self._size[1]))
+    def _draw_font_surface(self, text, font_color):
+        # create font surface
+        font_surface = self._font.get_font().render(text, True, font_color)
 
-        # get font surface
-        font_surface = self._font.get_font().render(text, True, self._font_color)
-
-        # get rect font surface
+        # get font surface rect
         font_surface_rect = font_surface.get_rect()
 
-        # move rect to center of button rectangle
-        font_surface_rect.center = (self._position[0] + (self._size[0] // 2), self._position[1] + (self._size[1] // 2))
+        # move rect to center of button
+        font_surface_rect.center = (int(self._real_position[0] + self._real_size[0] / 2), int(self._real_position[1] + self._real_size[1] / 2))
 
-        # draw font surface on rectangle
+        # draw font surface
         self._screen_display.blit(font_surface, font_surface_rect)
 
+    # draw button on screen
+    def draw_button(self, text, state_colors):
 
-class PressButton(TextButton):
-    def __init__(self, position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color):
+        if not self._real_width:
+            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(), self._real_position, self._real_size)
+            button_rect.draw()
 
-        super().__init__(position, size, font, font_color, screen_display)
+        else:
+            # draw button margin
+            button_margin_rect = realpolygons.RealRect(self._screen_display, state_colors.get_width(), self._real_position, self._real_size)
+            button_margin_rect.draw()
 
-        # button color when mouse is out button
-        self._mouse_out_button_color = mouse_out_button_color
+            # draw inside button
+            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(), (self._real_position[0] + round(self._real_width), self._real_position[1] + round(self._real_width)), (self._real_size[0] - 2 * round(self._real_width), self._real_size[1] - 2 * round(self._real_width)))
+            button_rect.draw()
 
-        # button color when mouse is over button
-        self._mouse_over_button_color = mouse_over_button_color
-
-    # draw button when mouse is out button
-    def draw_mouse_out_button(self, text):
-        super().draw_button(self._mouse_out_button_color, text)
-
-    # draw button when mouse is over button
-    def draw_mouse_over_button(self, text):
-        super().draw_button(self._mouse_over_button_color, text)
+        self._draw_font_surface(text, state_colors.get_font())
 
 
-class PressButtonRedirect(PressButton):
-    def __init__(self, font, font_color, mouse_out_button_color, mouse_over_button_color, text, pointer, position=None, size=None, screen_display=None):
+class PressButtonRedirect(TextButton):
+    def __init__(self, font, text, pointer, colors, position=None, size=None, screen_display=None, real_width=0):
 
-        super().__init__(position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color)
+        super().__init__(position, size, font, screen_display, colors, real_width)
 
         self.__text = text
 
@@ -136,18 +148,18 @@ class PressButtonRedirect(PressButton):
         self.__pressed = False
 
     # draw button (mouse out button)
-    def draw_mouse_out_static_button(self):
-        super().draw_mouse_out_button(self.__text)
+    def draw_mouse_out_button(self):
+        super().draw_button(self.__text, self._colors.get_mouse_out_button_colors())
 
     # draw button (mouse over button)
-    def draw_mouse_over_static_button(self):
-        super().draw_mouse_over_button(self.__text)
+    def draw_mouse_over_button(self):
+        super().draw_button(self.__text, self._colors.get_mouse_over_button_colors())
 
 
-class PressButtonChangeState(PressButton):
-    def __init__(self, font, font_color, mouse_out_button_color, mouse_over_button_color, states_text_list, position=None, size=None, screen_display=None):
+class PressButtonChangeState(TextButton):
+    def __init__(self, font, states_text_list, colors, position=None, size=None, screen_display=None, real_width=0):
 
-        super().__init__(position, size, font, font_color, screen_display, mouse_out_button_color, mouse_over_button_color)
+        super().__init__(position, size, font, screen_display, colors, real_width)
 
         # list of strings that can appear on button when button is pressed
         self.__states_text_list = states_text_list
@@ -161,34 +173,30 @@ class PressButtonChangeState(PressButton):
         self.__current_state_text_index = self.__current_state_text_index % len(self.__states_text_list)
 
     # draw button (mouse out button)
-    def draw_mouse_out_change_state_button(self):
-        super().draw_mouse_out_button(self.__states_text_list[self.__current_state_text_index])
+    def draw_mouse_out_button(self):
+        super().draw_button(self.__states_text_list[self.__current_state_text_index], self._colors.get_mouse_out_button_colors())
 
     # draw button (mouse over button)
-    def draw_mouse_over_change_state_button(self):
-        super().draw_mouse_over_button(self.__states_text_list[self.__current_state_text_index])
+    def draw_mouse_over_button(self):
+        super().draw_button(self.__states_text_list[self.__current_state_text_index], self._colors.get_mouse_over_button_colors())
 
 
 class SlideButton(TextButton):
-    def __init__(self, font, font_color, bar_width, range_items, mouse_out_bar_color, mouse_over_bar_color, button_color, position=None, size=None, screen_display=None):
+    def __init__(self, font, bar_width, range_items, colors, position=None, size=None, screen_display=None, real_width=0):
 
-        super().__init__(position, size, font, font_color, screen_display)
+        super().__init__(position, size, font, screen_display, colors, real_width)
 
-        self.__bar_width = bar_width
         self.__bar_real_width = bar_width
 
         # list of all items that can be displayed on button
         self.__range_items = range_items
 
-        self.__mouse_out_bar_color = mouse_out_bar_color
-        self.__mouse_over_bar_color = mouse_over_bar_color
-        self.__button_color = button_color
-
         # initial item
+        self.__current_item_real_index = 0
         self.__current_item = range_items[0]
 
         # initial bar position
-        self.__current_bar_position = position
+        self.__current_real_bar_position = None
 
         # bar pressed state
         self.__bar_pressed = False
@@ -199,21 +207,14 @@ class SlideButton(TextButton):
     def get_current_item(self):
         return self.__current_item
 
-    def get_bar_width(self):
-        return self.__bar_width
-
     def get_bar_real_width(self):
         return self.__bar_real_width
 
-    def set_bar_width(self, new_bar_width):
-        self.__bar_width = new_bar_width
-
     def set_bar_real_width(self, new_bar_real_width):
         self.__bar_real_width = new_bar_real_width
-        self.__bar_width = int(self.__bar_real_width)
 
     def update_bar_position(self):
-        self.__current_bar_position = self._position
+        self.calculate_real_bar_position_by_current_item_real_index()
 
     def press_bar(self):
         self.__bar_pressed = True
@@ -221,50 +222,56 @@ class SlideButton(TextButton):
     def release_bar(self):
         self.__bar_pressed = False
 
-    def calculate_bar_position(self, current_mouse_position):
-        if current_mouse_position[0] >= self._position[0] + self._size[0] - self.__bar_width // 2:
-            self.__current_bar_position = (self._position[0] + self._size[0] - self.__bar_width, self._position[1])
+    def calculate_real_bar_position_by_current_mouse_position(self, current_mouse_position):
+        if current_mouse_position[0] > self._real_position[0] + self._real_size[0] - round(self._real_width) - self.__bar_real_width / 2:
+            self.__current_real_bar_position = (self._real_position[0] + self._real_size[0] - round(self._real_width) - self.__bar_real_width, self._real_position[1] + round(self._real_width))
 
-        elif current_mouse_position[0] <= self._position[0] + self.__bar_width // 2:
-            self.__current_bar_position = self._position
+        elif current_mouse_position[0] < self._real_position[0] + self._real_width + self.__bar_real_width / 2:
+            self.__current_real_bar_position = (self._real_position[0] + round(self._real_width), self._real_position[1] + round(self._real_width))
 
         else:
-            self.__current_bar_position = (current_mouse_position[0] - self.__bar_width // 2, self._position[1])
+            self.__current_real_bar_position = (current_mouse_position[0] - self.__bar_real_width / 2, self._real_position[1] + round(self._real_width))
+
+    def __calculate_current_item_real_index(self):
+        self.__current_item_real_index = (self.__current_real_bar_position[0] - self._real_position[0] - round(self._real_width)) * ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width))
 
     def calculate_current_item(self):
-        self.__current_item = self.__range_items[int((self.__current_bar_position[0] - self._position[0]) * ((len(self.__range_items) - 1) / (self._size[0] - self.__bar_width)))]
+        self.__calculate_current_item_real_index()
+        self.__current_item = self.__range_items[round(self.__current_item_real_index)]
 
-    def draw_font_surface(self):
-        # create font surface
-        font_surface = self._font.get_font().render(str(self.__current_item), True, self._font_color)
+    def calculate_real_bar_position_by_current_item_real_index(self):
+        self.__current_real_bar_position = (self._real_position[0] + round(self._real_width) + self.__current_item_real_index / ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width)), self._real_position[1] + round(self._real_width))
 
-        # get font surface rect
-        font_surface_rect = font_surface.get_rect()
+    def draw_mouse_over_button(self):
+        self.__draw_slide_button(self._colors.get_mouse_over_button_colors())
 
-        # move rect to center of button
-        font_surface_rect.center = (self._position[0] + self._size[0] // 2, self._position[1] + self._size[1] // 2)
+    def draw_mouse_out_button(self):
+        self.__draw_slide_button(self._colors.get_mouse_out_button_colors())
 
-        # draw font surface
-        self._screen_display.blit(font_surface, font_surface_rect)
+    def __draw_slide_button(self, colors):
 
-    def draw_mouse_over_slide_button(self):
+        if not self._real_width:
+            # draw button rectangle
+            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(), self._real_position, self._real_size)
+            button_rect.draw()
 
-        # draw button rectangle
-        pygame.draw.rect(self._screen_display, self.__button_color, (self._position[0], self._position[1], self._size[0], self._size[1]))
+            # draw bar (mouse over button)
+            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position, (self.__bar_real_width, self._real_size[1]))
+            bar_rect.draw()
 
-        # draw bar (mouse over button)
-        pygame.draw.rect(self._screen_display, self.__mouse_over_bar_color, (self.__current_bar_position[0], self.__current_bar_position[1], self.__bar_width, self._size[1]))
+        else:
+
+            # draw button margin
+            button_margin_rect = realpolygons.RealRect(self._screen_display, colors.get_width(), self._real_position, self._real_size)
+            button_margin_rect.draw()
+
+            # draw button rectangle
+            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(), (self._real_position[0] + round(self._real_width), self._real_position[1] + round(self._real_width)), (self._real_size[0] - 2 * round(self._real_width), self._real_size[1] - 2 * round(self._real_width)))
+            button_rect.draw()
+
+            # draw bar
+            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position, (self.__bar_real_width, self._real_size[1] - 2 * round(self._real_width)))
+            bar_rect.draw()
 
         # draw text
-        self.draw_font_surface()
-
-    def draw_mouse_out_slide_button(self):
-
-        # draw button rectangle
-        pygame.draw.rect(self._screen_display, self.__button_color, (self._position[0], self._position[1], self._size[0], self._size[1]))
-
-        # draw bar (mouse out button)
-        pygame.draw.rect(self._screen_display, self.__mouse_out_bar_color, (self.__current_bar_position[0], self.__current_bar_position[1], self.__bar_width, self._size[1]))
-
-        # draw text
-        self.draw_font_surface()
+        self._draw_font_surface(str(self.__current_item), colors.get_font())
