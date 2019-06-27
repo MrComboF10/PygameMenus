@@ -1,4 +1,4 @@
-import pygame
+import realpolygons
 
 
 class TextButton:
@@ -11,6 +11,7 @@ class TextButton:
         self._width = width
         self._real_width = None
 
+        # if width bigger than 1 then real_width = width integer pixels
         if width > 1:
             self._real_width = width
 
@@ -103,10 +104,12 @@ class TextButton:
     # draw button on screen
     def draw_button(self, text, state_colors):
 
+        # draw button without width
         if not self._real_width:
             button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(), self._real_position, self._real_size)
             button_rect.draw()
 
+        # draw button with width
         else:
             # draw button margin
             button_margin_rect = realpolygons.RealRect(self._screen_display, state_colors.get_width(), self._real_position, self._real_size)
@@ -250,6 +253,7 @@ class SlideButton(TextButton):
 
     def __draw_slide_button(self, colors):
 
+        # draw button without width
         if not self._real_width:
             # draw button rectangle
             button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(), self._real_position, self._real_size)
@@ -259,6 +263,7 @@ class SlideButton(TextButton):
             bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position, (self.__bar_real_width, self._real_size[1]))
             bar_rect.draw()
 
+        # draw button with width
         else:
 
             # draw button margin

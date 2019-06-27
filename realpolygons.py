@@ -9,9 +9,16 @@ class RealRect:
         self.__real_size = real_size
         self.__real_width = real_width
 
+        # top left point
         self.__round_top_left_point = self.__calculate_round_top_left_point()
+
+        # down left point
         self.__round_down_left_point = self.__calculate_round_down_left_point()
+
+        # top right point
         self.__round_top_right_point = self.__calculate_round_top_right_point()
+
+        # down right point
         self.__round_down_right_point = self.__calculate_round_down_right_point()
 
     def __calculate_round_top_left_point(self):
