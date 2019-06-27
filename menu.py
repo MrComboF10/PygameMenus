@@ -126,11 +126,14 @@ class MainMenu:
             self.__menu_too_small = False
 
     def __resize_title_block(self, resize_ratio):
+
+        # current sizes
         title_current_font_real_size = self.__title.get_font_real_size()
         block_current_real_size = self.__buttons_block.get_real_size()
         block_current_real_vertical_margin = self.__buttons_block.get_real_vertical_margin()
         block_current_real_horizontal_margin = self.__buttons_block.get_real_horizontal_margin()
 
+        # new sizes
         new_title_font_real_size = title_current_font_real_size * resize_ratio
         new_block_real_size = block_current_real_size[0] * resize_ratio, block_current_real_size[1] * resize_ratio
         new_block_current_real_vertical_margin = block_current_real_vertical_margin * resize_ratio
@@ -167,6 +170,19 @@ class MainMenu:
 
     def __increase_size_title_block(self):
         self.__resize_title_block(1 / self.__resize_ratio)
+
+    def __configure_menu(self):
+        # resize title and block
+        self.__decrease_size_title_block()
+
+        # update title
+        self.__configure_title()
+
+        # set new block position
+        self.__configure_buttons_block()
+
+        # set new menu size
+        self.__calculate_real_size()
 
     def __update_change_state_buttons(self):
 
@@ -342,33 +358,14 @@ class MainMenu:
 
                     while self.__menu_too_big:
 
-                        # resize title and block
-                        self.__decrease_size_title_block()
-
-                        # update title
-                        self.__configure_title()
-
-                        # set new block position
-                        self.__configure_buttons_block()
-
-                        # set new menu size
-                        self.__calculate_real_size()
+                        self.__configure_menu()
 
                         # verify if menu is bigger than max menu size
                         self.__verify_menu_too_big()
 
                     while self.__menu_too_small:
-                        # resize title and block
-                        self.__increase_size_title_block()
 
-                        # update title
-                        self.__configure_title()
-
-                        # set new block position
-                        self.__configure_buttons_block()
-
-                        # set new menu size
-                        self.__calculate_real_size()
+                        self.__configure_menu()
 
                         # verify if menu can grow
                         self.__verify_menu_too_small()
