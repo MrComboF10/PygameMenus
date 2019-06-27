@@ -1,71 +1,172 @@
 import pygame
 
-white = (255, 255, 255)
-
 
 class MainMenu:
-    def __init__(self, screen_display, title, buttons_block, title_block_margin):
+    def __init__(self, screen_display, title, buttons_block, title_block_margin, max_menu_size_ratio, resize_ratio):
 
         self.__screen_display = screen_display
-        self.__title_block_margin = title_block_margin
+        self.__title = title
+        self.__buttons_block = buttons_block
+        self.__title_block_real_margin = title_block_margin
+        self.__max_menu_size_ratio = max_menu_size_ratio
+        self.__max_menu_real_size = self.__calculate_max_menu_real_size()
+        self.__resize_ratio = resize_ratio
+        self.__title_size_ratio = self.__calculate_title_size_ratio()
+        self.__min_menu_real_size = self.__calculate_min_menu_real_size()
 
-        self.__title_size = title.get_size()
-        self.__block_size = buttons_block.get_size()
-        self.__menu_sizes = None
+        self.__menu_real_size = None
 
-        self.__position = None
-        self.__set_position(self.__calculate_position((screen_display.get_rect()[2], screen_display.get_rect()[3])))
+        self.__real_position = None
+
+        # set menu position in screen
+        self.__calculate_real_size()
+        self.__set_real_position(self.__calculate_real_position((screen_display.get_rect()[2], screen_display.get_rect()[3])))
+
+        # initial mouse position
         self.__current_mouse_position = (0, 0)
         self.__current_event = None
         self.__mouse_left_pressed = None
+
+        # verify if the user released bar when the mouse is outside slide button
         self.__release_slide_button_bar = True
 
+        # verify if menu is bigger max menu size
+        self.__menu_too_big = False
+
+        # verify if menu can grow
+        self.__menu_too_small = False
+
         # configure title
-        self.__title = title
-        self.__set_title_position()
-        self.__title.set_screen_display(screen_display)
+        self.__configure_title()
 
         # configure buttons block
-        self.__buttons_block = buttons_block
-        self.__set_block_position()
-        self.__buttons_block.set_screen_display(screen_display)
-        self.__buttons_block.update_buttons()
+        self.__configure_buttons_block()
 
-    def __set_size(self):
-        if self.__title_size[0] > self.__block_size[0]:
-            self.__menu_sizes = (self.__title_size[0], self.__title_size[1] + self.__title_block_margin + self.__block_size[1])
+    def __set_real_position(self, real_position):
+        self.__real_position = real_position
+
+    def __set_title_real_position(self):
+
+        # case title is bigger than buttons_block
+        if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
+            position = self.__real_position
         else:
-            self.__menu_sizes = (self.__block_size[0], self.__title_size[1] + self.__title_block_margin + self.__block_size[1])
+            position = (self.__real_position[0] + self.__buttons_block.get_real_size()[0] / 2 - self.__title.get_size()[0] / 2, self.__real_position[1])
 
-    def __calculate_position(self, screen_size):
-        self.__set_size()
-        return screen_size[0] // 2 - self.__menu_sizes[0] // 2, screen_size[1] // 2 - self.__menu_sizes[1] // 2
+        self.__title.set_real_position(position)
 
-    def __set_position(self, position):
-        self.__position = position
+    def __configure_title(self):
+        self.__set_title_real_position()
+        self.__title.set_screen_display(self.__screen_display)
+        self.__title.update_title_text()
 
-    def __set_title_position(self):
-        if self.__title_size[0] > self.__block_size[0]:
-            position = self.__position
+    def __configure_buttons_block(self):
+        self.__set_block_real_position()
+        self.__buttons_block.set_screen_display(self.__screen_display)
+        self.__buttons_block.update_buttons_appearance_in_block()
+
+    def __set_block_real_position(self):
+
+        # case title is bigger than button_block
+        if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
+            position = (self.__real_position[0] + self.__title.get_size()[0] / 2 - self.__buttons_block.get_real_size()[0] / 2,
+                        self.__real_position[1] + self.__title.get_size()[1] + self.__title_block_real_margin)
         else:
-            position = (self.__position[0] + self.__block_size[0] // 2 - self.__title_size[0] // 2, self.__position[1])
+            position = (self.__real_position[0], self.__real_position[1] + self.__title.get_size()[1] + self.__title_block_real_margin)
 
-        self.__title.set_position(position)
-
-    def __set_block_position(self):
-        if self.__title_size[0] > self.__block_size[0]:
-            position = (self.__position[0] + self.__title_size[0] // 2 - self.__block_size[0] // 2,
-                        self.__position[1] + self.__title_size[1] + self.__title_block_margin)
-        else:
-            position = (self.__position[0], self.__position[1] + self.__title_size[1] + self.__title_block_margin)
-
-        self.__buttons_block.set_position(position)
+        self.__buttons_block.set_real_position(position)
 
     def get_title(self):
         return self.__title
 
     def get_block(self):
         return self.__buttons_block
+
+    def __calculate_real_size(self):
+
+        # case title is bigger than buttons_block
+        if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
+            self.__menu_real_size = (self.__title.get_size()[0], self.__title.get_size()[1] + self.__title_block_real_margin + self.__buttons_block.get_real_size()[1])
+        else:
+            self.__menu_real_size = (self.__buttons_block.get_real_size()[0], self.__title.get_size()[1] + self.__title_block_real_margin + self.__buttons_block.get_real_size()[1])
+
+    def __calculate_real_position(self, screen_size):
+        return screen_size[0] / 2 - self.__menu_real_size[0] / 2, screen_size[1] / 2 - self.__menu_real_size[1] / 2
+
+    def __calculate_max_menu_real_size(self):
+        return self.__screen_display.get_size()[0] * self.__max_menu_size_ratio[0], self.__screen_display.get_size()[1] * self.__max_menu_size_ratio[1]
+
+    def __calculate_min_menu_real_size(self):
+        if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
+            return self.__max_menu_real_size[0] * self.__title_size_ratio[0] * 0.95, self.__max_menu_real_size[1] * self.__title_size_ratio[1] * 0.95
+        return self.__max_menu_real_size[0] * self.__resize_ratio * 0.95, self.__max_menu_real_size[1] * self.__resize_ratio * 0.95
+
+    def __calculate_title_size_ratio(self):
+        current_title_size = self.__title.get_size()
+        current_title_font_real_size = self.__title.get_font_real_size()
+        self.__title.set_font_real_size(current_title_font_real_size * self.__resize_ratio)
+        self.__title.update_title_text()
+
+        new_title_size = self.__title.get_size()
+        self.__title.set_font_real_size(current_title_font_real_size)
+        self.__title.update_title_text()
+
+        return new_title_size[0] / current_title_size[0], new_title_size[1] / current_title_size[1]
+
+    def __verify_menu_too_big(self):
+        if self.__menu_real_size[0] > self.__max_menu_real_size[0] or self.__menu_real_size[1] > self.__max_menu_real_size[1]:
+            self.__menu_too_big = True
+        else:
+            self.__menu_too_big = False
+
+    def __verify_menu_too_small(self):
+        if self.__menu_real_size[0] < self.__min_menu_real_size[0] and self.__menu_real_size[1] < self.__min_menu_real_size[1]:
+            self.__menu_too_small = True
+        else:
+            self.__menu_too_small = False
+
+    def __resize_title_block(self, resize_ratio):
+        title_current_font_real_size = self.__title.get_font_real_size()
+        block_current_real_size = self.__buttons_block.get_real_size()
+        block_current_real_vertical_margin = self.__buttons_block.get_real_vertical_margin()
+        block_current_real_horizontal_margin = self.__buttons_block.get_real_horizontal_margin()
+
+        new_title_font_real_size = title_current_font_real_size * resize_ratio
+        new_block_real_size = block_current_real_size[0] * resize_ratio, block_current_real_size[1] * resize_ratio
+        new_block_current_real_vertical_margin = block_current_real_vertical_margin * resize_ratio
+        new_block_current_real_horizontal_margin = block_current_real_horizontal_margin * resize_ratio
+
+        # resize title
+        self.__title.set_font_real_size(new_title_font_real_size)
+        self.__title.update_title_text()
+
+        # resize block
+        self.__buttons_block.set_real_size(new_block_real_size)
+
+        # resize block margins
+        self.__buttons_block.set_real_vertical_margin(new_block_current_real_vertical_margin)
+        self.__buttons_block.set_real_horizontal_margin(new_block_current_real_horizontal_margin)
+
+        # resize title block margin
+        self.__title_block_real_margin = self.__title_block_real_margin * resize_ratio
+
+        # resize buttons text
+        for text_button in self.__buttons_block.get_text_buttons():
+            button_font_real_size = text_button.get_font_real_size()
+            new_button_font_real_size = button_font_real_size * resize_ratio
+            text_button.set_font_real_size(new_button_font_real_size)
+
+        # resize slide buttons bar width
+        for slide_button in self.__buttons_block.get_slide_buttons():
+            slide_button_bar_real_width = slide_button.get_bar_real_width()
+            new_slide_button_bar_real_width = slide_button_bar_real_width * resize_ratio
+            slide_button.set_bar_real_width(new_slide_button_bar_real_width)
+
+    def __decrease_size_title_block(self):
+        self.__resize_title_block(self.__resize_ratio)
+
+    def __increase_size_title_block(self):
+        self.__resize_title_block(1 / self.__resize_ratio)
 
     def __update_change_state_buttons(self):
 
@@ -97,7 +198,7 @@ class MainMenu:
                 if change_button.get_mouse_location_changed():
 
                     # draw change button (mouse over button)
-                    change_button.draw_mouse_over_change_state_button()
+                    change_button.draw_mouse_over_button()
                     pygame.display.update()
 
                 if self.__current_event.type == pygame.MOUSEBUTTONDOWN:
@@ -109,7 +210,7 @@ class MainMenu:
                         change_button.add_state_text_index()
 
                         # draw change button (mouse over button)
-                        change_button.draw_mouse_over_change_state_button()
+                        change_button.draw_mouse_over_button()
                         pygame.display.update()
 
             else:
@@ -118,7 +219,7 @@ class MainMenu:
                 if change_button.get_mouse_location_changed():
 
                     # draw change button (mouse out button)
-                    change_button.draw_mouse_out_change_state_button()
+                    change_button.draw_mouse_out_button()
                     pygame.display.update()
 
     def __update_slide_buttons(self):
@@ -155,7 +256,7 @@ class MainMenu:
                     slide_button.calculate_current_item()
 
                     # draw slide button (mouse over button)
-                    slide_button.draw_mouse_over_slide_button()
+                    slide_button.draw_mouse_over_button()
                     pygame.display.update()
 
             else:
@@ -165,7 +266,7 @@ class MainMenu:
                     slide_button.calculate_current_item()
 
                     # draw slide button (mouse out button)
-                    slide_button.draw_mouse_out_slide_button()
+                    slide_button.draw_mouse_out_button()
                     pygame.display.update()
 
             if self.__current_event.type == pygame.MOUSEBUTTONUP:
@@ -181,13 +282,13 @@ class MainMenu:
             if slide_button.get_bar_is_pressed():
 
                 # calculate bar position when button is pressed
-                slide_button.calculate_bar_position(self.__current_mouse_position)
+                slide_button.calculate_real_bar_position_by_current_mouse_position(self.__current_mouse_position)
 
                 # calculate current text in button according to current bar position
                 slide_button.calculate_current_item()
 
                 # draw slide button (mouse over button)
-                slide_button.draw_mouse_over_slide_button()
+                slide_button.draw_mouse_over_button()
                 pygame.display.update()
 
     def loop(self):
@@ -197,14 +298,15 @@ class MainMenu:
         # draw title
         self.__title.draw()
 
+        # text buttons
         # draw change buttons
         for change_button in self.__buttons_block.get_press_buttons_change_state():
-            change_button.draw_mouse_out_change_state_button()
+            change_button.draw_mouse_out_button()
         pygame.display.update()
 
         # draw slide buttons
         for slide_button in self.__buttons_block.get_slide_buttons():
-            slide_button.draw_mouse_out_slide_button()
+            slide_button.draw_mouse_out_button()
         pygame.display.update()
 
         while not loop_exit:
@@ -223,12 +325,67 @@ class MainMenu:
                 # resize screen
                 if self.__current_event.type == pygame.VIDEORESIZE:
 
+                    # set new screen display
                     self.__screen_display = pygame.display.set_mode(self.__current_event.size, pygame.RESIZABLE)
-                    self.__set_position(self.__calculate_position(self.__current_event.size))
-                    self.__set_title_position()
-                    self.__set_block_position()
-                    self.__buttons_block.update_buttons()
 
+                    self.__title_size_ratio = self.__calculate_title_size_ratio()
+
+                    # update menu size
+                    self.__max_menu_real_size = self.__calculate_max_menu_real_size()
+                    self.__min_menu_real_size = self.__calculate_min_menu_real_size()
+
+                    # verify if menu is bigger than max menu size
+                    self.__verify_menu_too_big()
+
+                    # verify if menu can grow
+                    self.__verify_menu_too_small()
+
+                    while self.__menu_too_big:
+
+                        # resize title and block
+                        self.__decrease_size_title_block()
+
+                        # update title
+                        self.__configure_title()
+
+                        # set new block position
+                        self.__configure_buttons_block()
+
+                        # set new menu size
+                        self.__calculate_real_size()
+
+                        # verify if menu is bigger than max menu size
+                        self.__verify_menu_too_big()
+
+                    while self.__menu_too_small:
+                        # resize title and block
+                        self.__increase_size_title_block()
+
+                        # update title
+                        self.__configure_title()
+
+                        # set new block position
+                        self.__configure_buttons_block()
+
+                        # set new menu size
+                        self.__calculate_real_size()
+
+                        # verify if menu can grow
+                        self.__verify_menu_too_small()
+
+                    # set new menu size
+                    self.__calculate_real_size()
+
+                    # set new menu position
+                    self.__set_real_position(self.__calculate_real_position(self.__current_event.size))
+
+                    # set new title position
+                    self.__set_title_real_position()
+
+                    # set new block position
+                    self.__configure_buttons_block()
+
+                    # update screen display background
                     self.__screen_display.fill((255, 255, 255))
 
                     # draw title
@@ -236,12 +393,12 @@ class MainMenu:
 
                     # draw change buttons
                     for change_button in self.__buttons_block.get_press_buttons_change_state():
-                        change_button.draw_mouse_out_change_state_button()
+                        change_button.draw_mouse_out_button()
                     pygame.display.update()
 
                     # draw slide buttons
                     for slide_button in self.__buttons_block.get_slide_buttons():
-                        slide_button.draw_mouse_out_slide_button()
+                        slide_button.draw_mouse_out_button()
                     pygame.display.update()
 
                 self.__current_mouse_position = pygame.mouse.get_pos()
