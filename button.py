@@ -96,7 +96,8 @@ class TextButton:
         font_surface_rect = font_surface.get_rect()
 
         # move rect to center of button
-        font_surface_rect.center = (int(self._real_position[0] + self._real_size[0] / 2), int(self._real_position[1] + self._real_size[1] / 2))
+        font_surface_rect.center = (int(self._real_position[0] + self._real_size[0] / 2),
+                                    int(self._real_position[1] + self._real_size[1] / 2))
 
         # draw font surface
         self._screen_display.blit(font_surface, font_surface_rect)
@@ -106,17 +107,23 @@ class TextButton:
 
         # draw button without width
         if not self._real_width:
-            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(), self._real_position, self._real_size)
+            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(),
+                                                self._real_position, self._real_size)
             button_rect.draw()
 
         # draw button with width
         else:
             # draw button margin
-            button_margin_rect = realpolygons.RealRect(self._screen_display, state_colors.get_width(), self._real_position, self._real_size)
+            button_margin_rect = realpolygons.RealRect(self._screen_display, state_colors.get_width(),
+                                                       self._real_position, self._real_size)
             button_margin_rect.draw()
 
             # draw inside button
-            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(), (self._real_position[0] + round(self._real_width), self._real_position[1] + round(self._real_width)), (self._real_size[0] - 2 * round(self._real_width), self._real_size[1] - 2 * round(self._real_width)))
+            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(),
+                                                (self._real_position[0] + round(self._real_width),
+                                                 self._real_position[1] + round(self._real_width)),
+                                                (self._real_size[0] - 2 * round(self._real_width),
+                                                 self._real_size[1] - 2 * round(self._real_width)))
             button_rect.draw()
 
         self._draw_font_surface(text, state_colors.get_font())
@@ -177,15 +184,18 @@ class PressButtonChangeState(TextButton):
 
     # draw button (mouse out button)
     def draw_mouse_out_button(self):
-        super().draw_button(self.__states_text_list[self.__current_state_text_index], self._colors.get_mouse_out_button_colors())
+        super().draw_button(self.__states_text_list[self.__current_state_text_index],
+                            self._colors.get_mouse_out_button_colors())
 
     # draw button (mouse over button)
     def draw_mouse_over_button(self):
-        super().draw_button(self.__states_text_list[self.__current_state_text_index], self._colors.get_mouse_over_button_colors())
+        super().draw_button(self.__states_text_list[self.__current_state_text_index],
+                            self._colors.get_mouse_over_button_colors())
 
 
 class SlideButton(TextButton):
-    def __init__(self, font, bar_width, range_items, colors, position=None, size=None, screen_display=None, real_width=0):
+    def __init__(self, font, bar_width, range_items, colors, position=None, size=None, screen_display=None,
+                 real_width=0):
 
         super().__init__(position, size, font, screen_display, colors, real_width)
 
@@ -226,24 +236,39 @@ class SlideButton(TextButton):
         self.__bar_pressed = False
 
     def calculate_real_bar_position_by_current_mouse_position(self, current_mouse_position):
-        if current_mouse_position[0] > self._real_position[0] + self._real_size[0] - round(self._real_width) - self.__bar_real_width / 2:
-            self.__current_real_bar_position = (self._real_position[0] + self._real_size[0] - round(self._real_width) - self.__bar_real_width, self._real_position[1] + round(self._real_width))
 
+        # mouse position exceed button right limit
+        if current_mouse_position[0] > \
+                self._real_position[0] + self._real_size[0] - round(self._real_width) - self.__bar_real_width / 2:
+            self.__current_real_bar_position = (self._real_position[0] +
+                                                self._real_size[0] - round(self._real_width) - self.__bar_real_width,
+                                                self._real_position[1] + round(self._real_width))
+
+        # mouse position exceed button left limit
         elif current_mouse_position[0] < self._real_position[0] + self._real_width + self.__bar_real_width / 2:
-            self.__current_real_bar_position = (self._real_position[0] + round(self._real_width), self._real_position[1] + round(self._real_width))
+            self.__current_real_bar_position = (self._real_position[0] + round(self._real_width),
+                                                self._real_position[1] + round(self._real_width))
 
+        # mouse position on button
         else:
-            self.__current_real_bar_position = (current_mouse_position[0] - self.__bar_real_width / 2, self._real_position[1] + round(self._real_width))
+            self.__current_real_bar_position = (current_mouse_position[0] - self.__bar_real_width / 2,
+                                                self._real_position[1] + round(self._real_width))
 
     def __calculate_current_item_real_index(self):
-        self.__current_item_real_index = (self.__current_real_bar_position[0] - self._real_position[0] - round(self._real_width)) * ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width))
+        self.__current_item_real_index = \
+            (self.__current_real_bar_position[0] - self._real_position[0] - round(self._real_width)) * \
+            ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width))
 
     def calculate_current_item(self):
         self.__calculate_current_item_real_index()
         self.__current_item = self.__range_items[round(self.__current_item_real_index)]
 
     def calculate_real_bar_position_by_current_item_real_index(self):
-        self.__current_real_bar_position = (self._real_position[0] + round(self._real_width) + self.__current_item_real_index / ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width)), self._real_position[1] + round(self._real_width))
+        self.__current_real_bar_position = \
+            (self._real_position[0] + round(self._real_width) + self.__current_item_real_index /
+             ((len(self.__range_items) - 1) / (self._real_size[0] -
+                                               2 * round(self._real_width) - self.__bar_real_width)),
+             self._real_position[1] + round(self._real_width))
 
     def draw_mouse_over_button(self):
         self.__draw_slide_button(self._colors.get_mouse_over_button_colors())
@@ -256,26 +281,34 @@ class SlideButton(TextButton):
         # draw button without width
         if not self._real_width:
             # draw button rectangle
-            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(), self._real_position, self._real_size)
+            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(),
+                                                self._real_position, self._real_size)
             button_rect.draw()
 
             # draw bar (mouse over button)
-            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position, (self.__bar_real_width, self._real_size[1]))
+            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position,
+                                             (self.__bar_real_width, self._real_size[1]))
             bar_rect.draw()
 
         # draw button with width
         else:
 
             # draw button margin
-            button_margin_rect = realpolygons.RealRect(self._screen_display, colors.get_width(), self._real_position, self._real_size)
+            button_margin_rect = realpolygons.RealRect(self._screen_display, colors.get_width(), self._real_position,
+                                                       self._real_size)
             button_margin_rect.draw()
 
             # draw button rectangle
-            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(), (self._real_position[0] + round(self._real_width), self._real_position[1] + round(self._real_width)), (self._real_size[0] - 2 * round(self._real_width), self._real_size[1] - 2 * round(self._real_width)))
+            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(),
+                                                (self._real_position[0] + round(self._real_width),
+                                                 self._real_position[1] + round(self._real_width)),
+                                                (self._real_size[0] - 2 * round(self._real_width),
+                                                 self._real_size[1] - 2 * round(self._real_width)))
             button_rect.draw()
 
             # draw bar
-            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position, (self.__bar_real_width, self._real_size[1] - 2 * round(self._real_width)))
+            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position,
+                                             (self.__bar_real_width, self._real_size[1] - 2 * round(self._real_width)))
             bar_rect.draw()
 
         # draw text

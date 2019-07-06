@@ -22,17 +22,24 @@ class RealRect:
         self.__round_down_right_point = self.__calculate_round_down_right_point()
 
     def __calculate_round_top_left_point(self):
-        return round(self.__real_top_left_point[0]), round(self.__real_top_left_point[1])
+        return round(self.__real_top_left_point[0]), \
+               round(self.__real_top_left_point[1])
 
     def __calculate_round_down_left_point(self):
-        return round(self.__real_top_left_point[0]), round(self.__real_top_left_point[1] + self.__real_size[1])
+        return round(self.__real_top_left_point[0]), \
+               round(self.__real_top_left_point[1] + self.__real_size[1])
 
     def __calculate_round_top_right_point(self):
-        return round(self.__real_top_left_point[0] + self.__real_size[0]), round(self.__real_top_left_point[1])
+        return round(self.__real_top_left_point[0] + self.__real_size[0]), \
+               round(self.__real_top_left_point[1])
 
     def __calculate_round_down_right_point(self):
-        return round(self.__real_top_left_point[0] + self.__real_size[0]), round(self.__real_top_left_point[1] + self.__real_size[1])
+        return round(self.__real_top_left_point[0] + self.__real_size[0]), \
+               round(self.__real_top_left_point[1] + self.__real_size[1])
 
     def draw(self):
-        pygame.draw.polygon(self.__screen_display, self.__color, [self.__round_top_left_point, self.__round_down_left_point, self.__round_down_right_point, self.__round_top_right_point], round(self.__real_width))
-
+        pygame.draw.polygon(self.__screen_display, self.__color,
+                            [self.__round_top_left_point,
+                             self.__round_down_left_point,
+                             self.__round_down_right_point,
+                             self.__round_top_right_point], round(self.__real_width))

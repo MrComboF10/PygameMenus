@@ -20,7 +20,8 @@ class MainMenu:
 
         # set menu position in screen
         self.__calculate_real_size()
-        self.__set_real_position(self.__calculate_real_position((screen_display.get_rect()[2], screen_display.get_rect()[3])))
+        self.__set_real_position(self.__calculate_real_position((screen_display.get_rect()[2],
+                                                                 screen_display.get_rect()[3])))
 
         # initial mouse position
         self.__current_mouse_position = (0, 0)
@@ -51,7 +52,8 @@ class MainMenu:
         if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
             position = self.__real_position
         else:
-            position = (self.__real_position[0] + self.__buttons_block.get_real_size()[0] / 2 - self.__title.get_size()[0] / 2, self.__real_position[1])
+            position = (self.__real_position[0] + self.__buttons_block.get_real_size()[0] / 2 -
+                        self.__title.get_size()[0] / 2, self.__real_position[1])
 
         self.__title.set_real_position(position)
 
@@ -69,10 +71,12 @@ class MainMenu:
 
         # case title is bigger than button_block
         if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
-            position = (self.__real_position[0] + self.__title.get_size()[0] / 2 - self.__buttons_block.get_real_size()[0] / 2,
+            position = (self.__real_position[0] + self.__title.get_size()[0] / 2 -
+                        self.__buttons_block.get_real_size()[0] / 2,
                         self.__real_position[1] + self.__title.get_size()[1] + self.__title_block_real_margin)
         else:
-            position = (self.__real_position[0], self.__real_position[1] + self.__title.get_size()[1] + self.__title_block_real_margin)
+            position = (self.__real_position[0],
+                        self.__real_position[1] + self.__title.get_size()[1] + self.__title_block_real_margin)
 
         self.__buttons_block.set_real_position(position)
 
@@ -86,20 +90,29 @@ class MainMenu:
 
         # case title is bigger than buttons_block
         if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
-            self.__menu_real_size = (self.__title.get_size()[0], self.__title.get_size()[1] + self.__title_block_real_margin + self.__buttons_block.get_real_size()[1])
+            self.__menu_real_size = (self.__title.get_size()[0],
+                                     self.__title.get_size()[1] + self.__title_block_real_margin +
+                                     self.__buttons_block.get_real_size()[1])
+
         else:
-            self.__menu_real_size = (self.__buttons_block.get_real_size()[0], self.__title.get_size()[1] + self.__title_block_real_margin + self.__buttons_block.get_real_size()[1])
+            self.__menu_real_size = (self.__buttons_block.get_real_size()[0],
+                                     self.__title.get_size()[1] + self.__title_block_real_margin +
+                                     self.__buttons_block.get_real_size()[1])
 
     def __calculate_real_position(self, screen_size):
         return screen_size[0] / 2 - self.__menu_real_size[0] / 2, screen_size[1] / 2 - self.__menu_real_size[1] / 2
 
     def __calculate_max_menu_real_size(self):
-        return self.__screen_display.get_size()[0] * self.__max_menu_size_ratio[0], self.__screen_display.get_size()[1] * self.__max_menu_size_ratio[1]
+        return self.__screen_display.get_size()[0] * self.__max_menu_size_ratio[0], \
+               self.__screen_display.get_size()[1] * self.__max_menu_size_ratio[1]
 
     def __calculate_min_menu_real_size(self):
         if self.__title.get_size()[0] > self.__buttons_block.get_real_size()[0]:
-            return self.__max_menu_real_size[0] * self.__title_size_ratio[0] * 0.95, self.__max_menu_real_size[1] * self.__title_size_ratio[1] * 0.95
-        return self.__max_menu_real_size[0] * self.__resize_ratio * 0.95, self.__max_menu_real_size[1] * self.__resize_ratio * 0.95
+            return self.__max_menu_real_size[0] * self.__title_size_ratio[0] * 0.95, \
+                   self.__max_menu_real_size[1] * self.__title_size_ratio[1] * 0.95
+
+        return self.__max_menu_real_size[0] * self.__resize_ratio * 0.95, \
+            self.__max_menu_real_size[1] * self.__resize_ratio * 0.95
 
     def __calculate_title_size_ratio(self):
         current_title_size = self.__title.get_size()
@@ -114,13 +127,15 @@ class MainMenu:
         return new_title_size[0] / current_title_size[0], new_title_size[1] / current_title_size[1]
 
     def __verify_menu_too_big(self):
-        if self.__menu_real_size[0] > self.__max_menu_real_size[0] or self.__menu_real_size[1] > self.__max_menu_real_size[1]:
+        if self.__menu_real_size[0] > self.__max_menu_real_size[0] or \
+                self.__menu_real_size[1] > self.__max_menu_real_size[1]:
             self.__menu_too_big = True
         else:
             self.__menu_too_big = False
 
     def __verify_menu_too_small(self):
-        if self.__menu_real_size[0] < self.__min_menu_real_size[0] and self.__menu_real_size[1] < self.__min_menu_real_size[1]:
+        if self.__menu_real_size[0] < self.__min_menu_real_size[0] and \
+                self.__menu_real_size[1] < self.__min_menu_real_size[1]:
             self.__menu_too_small = True
         else:
             self.__menu_too_small = False
