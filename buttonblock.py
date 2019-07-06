@@ -80,10 +80,12 @@ class Block:
                 self.__slide_buttons.append(button)
 
     def __calculate_buttons_real_width_current_row(self, current_buttons_row):
-        return (self.__real_size[0] - self.__real_horizontal_margin * (len(current_buttons_row) - 1)) / len(current_buttons_row)
+        return (self.__real_size[0] -
+                self.__real_horizontal_margin * (len(current_buttons_row) - 1)) / len(current_buttons_row)
 
     def __calculate_buttons_real_height(self):
-        return (self.__real_size[1] - self.__real_vertical_margin * (len(self.__buttons_matrix) - 1)) / len(self.__buttons_matrix)
+        return (self.__real_size[1] -
+                self.__real_vertical_margin * (len(self.__buttons_matrix) - 1)) / len(self.__buttons_matrix)
 
     def set_slide_buttons_bar_width(self, new_bar_real_width):
         for button in self.__slide_buttons:
@@ -114,11 +116,12 @@ class Block:
                         button.update_bar_position()
 
                 # move position to the right
-                current_real_position = (current_real_position[0] + buttons_real_width + self.__real_horizontal_margin, current_real_position[1])
+                current_real_position = (current_real_position[0] + buttons_real_width + self.__real_horizontal_margin,
+                                         current_real_position[1])
 
             # move position x to initial position
             current_real_position = (self.__real_position[0], current_real_position[1])
 
             # move position to down
-            current_real_position = (current_real_position[0], current_real_position[1] + buttons_real_height + self.__real_vertical_margin)
-
+            current_real_position = (current_real_position[0],
+                                     current_real_position[1] + buttons_real_height + self.__real_vertical_margin)

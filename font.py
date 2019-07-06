@@ -46,4 +46,3 @@ class Font:
     def update(self):
         self.__size = int(self.__real_size)
         self.__font = pygame.font.SysFont(self.__name, self.__size, self.__bold, self.__italic)
-
