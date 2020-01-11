@@ -186,9 +186,22 @@ class MainMenu:
     def __increase_size_title_block(self):
         self.__resize_title_block(1 / self.__resize_ratio)
 
-    def __configure_menu(self):
+    def __configure_menu_too_big(self):
         # resize title and block
         self.__decrease_size_title_block()
+
+        # update title
+        self.__configure_title()
+
+        # set new block position
+        self.__configure_buttons_block()
+
+        # set new menu size
+        self.__calculate_real_size()
+
+    def __configure_menu_too_small(self):
+        # resize title and block
+        self.__increase_size_title_block()
 
         # update title
         self.__configure_title()
@@ -373,14 +386,14 @@ class MainMenu:
 
                     while self.__menu_too_big:
 
-                        self.__configure_menu()
+                        self.__configure_menu_too_big()
 
                         # verify if menu is bigger than max menu size
                         self.__verify_menu_too_big()
 
                     while self.__menu_too_small:
 
-                        self.__configure_menu()
+                        self.__configure_menu_too_small()
 
                         # verify if menu can grow
                         self.__verify_menu_too_small()

@@ -264,10 +264,15 @@ class SlideButton(TextButton):
         self.__current_item = self.__range_items[round(self.__current_item_real_index)]
 
     def calculate_real_bar_position_by_current_item_real_index(self):
+        # print("Val 1: " + str((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width)))
+        # print("Val 2: " + str(self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width))
+        # print("Bar x: " + str(self._real_position[0] + round(self._real_width) + self.__current_item_real_index /
+        #      ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width))))
+
         self.__current_real_bar_position = \
             (self._real_position[0] + round(self._real_width) + self.__current_item_real_index /
-             ((len(self.__range_items) - 1) / (self._real_size[0] -
-                                               2 * round(self._real_width) - self.__bar_real_width)),
+             ((len(self.__range_items) - 1) / (self._real_size[0] - 2 * round(self._real_width) - self.__bar_real_width)),
+
              self._real_position[1] + round(self._real_width))
 
     def draw_mouse_over_button(self):
