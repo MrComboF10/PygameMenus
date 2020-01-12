@@ -143,7 +143,7 @@ class PressButtonRedirect(TextButton):
         self.__pressed = False
 
     # get redirect location
-    def get_pointer(self):
+    def get_next_state(self):
         return self.__pointer
 
     def get_pressed(self):
