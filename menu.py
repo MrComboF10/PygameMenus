@@ -1,8 +1,8 @@
 import pygame
 
 
-class MainMenu:
-    def __init__(self, screen_display, title, buttons_block, title_block_margin, max_menu_size_ratio, resize_ratio):
+class Menu:
+    def __init__(self, screen_display, title, buttons_block, title_block_margin, max_menu_size_ratio, resize_ratio, state):
 
         self.__screen_display = screen_display
         self.__title = title
@@ -13,6 +13,11 @@ class MainMenu:
         self.__resize_ratio = resize_ratio
         self.__title_size_ratio = self.__calculate_title_size_ratio()
         self.__min_menu_real_size = self.__calculate_min_menu_real_size()
+
+        self.__state = state
+        self.__next_state = state
+        self.__update_state = False
+        self.__pressed_exit = False
 
         self.__menu_real_size = None
 
@@ -85,6 +90,18 @@ class MainMenu:
 
     def get_block(self):
         return self.__buttons_block
+
+    def get_next_state(self):
+        return self.__next_state
+
+    def get_pressed_exit(self):
+        return self.__pressed_exit
+
+    def get_screen_display(self):
+        return self.__screen_display
+
+    def set_screen_display(self, new_screen_display):
+        self.__screen_display = new_screen_display
 
     def __calculate_real_size(self):
 
@@ -186,7 +203,7 @@ class MainMenu:
     def __increase_size_title_block(self):
         self.__resize_title_block(1 / self.__resize_ratio)
 
-    def __configure_menu(self):
+    def __configure_menu_too_big(self):
         # resize title and block
         self.__decrease_size_title_block()
 
@@ -198,6 +215,74 @@ class MainMenu:
 
         # set new menu size
         self.__calculate_real_size()
+
+    def __configure_menu_too_small(self):
+        # resize title and block
+        self.__increase_size_title_block()
+
+        # update title
+        self.__configure_title()
+
+        # set new block position
+        self.__configure_buttons_block()
+
+        # set new menu size
+        self.__calculate_real_size()
+
+    def __update_redirect_buttons(self):
+
+        for redirect_button in self.__buttons_block.get_press_buttons_redirect():
+
+            # get mouse location before and after to verify if mouse location has changed
+
+            # get mouse before change
+            mouse_location_before = redirect_button.get_mouse_over_button()
+
+            # verify if mouse is on button
+            redirect_button.verify_mouse_on_button(self.__current_mouse_position)
+
+            # get mouse after change
+            mouse_location_after = redirect_button.get_mouse_over_button()
+
+            # verify if mouse location inside or outside button changed
+            if mouse_location_before != mouse_location_after:
+
+                # mouse location changed is used to draw button if location changed
+                redirect_button.set_mouse_location_changed(True)
+            else:
+                redirect_button.set_mouse_location_changed(False)
+
+            # verify if mouse is on button
+            if redirect_button.get_mouse_over_button():
+
+                # verify if mouse was outside button before
+                if redirect_button.get_mouse_location_changed():
+
+                    # draw button (mouse over button)
+                    redirect_button.draw_mouse_over_button()
+                    pygame.display.update()
+
+                if self.__current_event.type == pygame.MOUSEBUTTONDOWN:
+
+                    # mouse left button
+                    if self.__current_event.button == 1:
+
+                        # change menu next state
+                        self.__update_state = True
+                        self.__next_state = redirect_button.get_next_state()
+
+                        # draw button (mouse over button)
+                        redirect_button.draw_mouse_over_button()
+                        pygame.display.update()
+
+            else:
+
+                # verify if mouse was inside before
+                if redirect_button.get_mouse_location_changed():
+
+                    # draw button (mouse out button)
+                    redirect_button.draw_mouse_out_button()
+                    pygame.display.update()
 
     def __update_change_state_buttons(self):
 
@@ -322,35 +407,90 @@ class MainMenu:
                 slide_button.draw_mouse_over_button()
                 pygame.display.update()
 
-    def loop(self):
+    def __resize(self):
 
-        loop_exit = False
+        self.__title_size_ratio = self.__calculate_title_size_ratio()
+
+        # update menu size
+        self.__max_menu_real_size = self.__calculate_max_menu_real_size()
+        self.__min_menu_real_size = self.__calculate_min_menu_real_size()
+
+        # verify if menu is bigger than max menu size
+        self.__verify_menu_too_big()
+
+        # verify if menu can grow
+        self.__verify_menu_too_small()
+
+        while self.__menu_too_big:
+            self.__configure_menu_too_big()
+
+            # verify if menu is bigger than max menu size
+            self.__verify_menu_too_big()
+
+        while self.__menu_too_small:
+            self.__configure_menu_too_small()
+
+            # verify if menu can grow
+            self.__verify_menu_too_small()
+
+        # set new menu size
+        self.__calculate_real_size()
+
+        # set new menu position
+        self.__set_real_position(self.__calculate_real_position(self.__screen_display.get_size()))
+
+        # set new title position
+        self.__set_title_real_position()
+
+        # set new block position
+        self.__configure_buttons_block()
+
+        # update screen display background
+        self.__screen_display.fill((255, 255, 255))
 
         # draw title
         self.__title.draw()
 
-        # text buttons
+        # draw redirect buttons
+        for redirect_button in self.__buttons_block.get_press_buttons_redirect():
+            redirect_button.draw_mouse_out_button()
+
         # draw change buttons
         for change_button in self.__buttons_block.get_press_buttons_change_state():
             change_button.draw_mouse_out_button()
-        pygame.display.update()
 
         # draw slide buttons
         for slide_button in self.__buttons_block.get_slide_buttons():
             slide_button.draw_mouse_out_button()
+
         pygame.display.update()
 
+    def loop(self):
+
+        loop_exit = False
+
+        # configure title
+        self.__configure_title()
+
+        # configure buttons block
+        self.__configure_buttons_block()
+
+        self.__resize()
+
         while not loop_exit:
+
             for self.__current_event in pygame.event.get():
 
                 # exit menu
                 if self.__current_event.type == pygame.QUIT:
+                    self.__pressed_exit = True
                     loop_exit = True
 
                 if self.__current_event.type == pygame.KEYDOWN:
 
                     # if esc is pressed exit
                     if self.__current_event.key == pygame.K_ESCAPE:
+                        self.__pressed_exit = True
                         loop_exit = True
 
                 # resize screen
@@ -358,64 +498,18 @@ class MainMenu:
 
                     # set new screen display
                     self.__screen_display = pygame.display.set_mode(self.__current_event.size, pygame.RESIZABLE)
-
-                    self.__title_size_ratio = self.__calculate_title_size_ratio()
-
-                    # update menu size
-                    self.__max_menu_real_size = self.__calculate_max_menu_real_size()
-                    self.__min_menu_real_size = self.__calculate_min_menu_real_size()
-
-                    # verify if menu is bigger than max menu size
-                    self.__verify_menu_too_big()
-
-                    # verify if menu can grow
-                    self.__verify_menu_too_small()
-
-                    while self.__menu_too_big:
-
-                        self.__configure_menu()
-
-                        # verify if menu is bigger than max menu size
-                        self.__verify_menu_too_big()
-
-                    while self.__menu_too_small:
-
-                        self.__configure_menu()
-
-                        # verify if menu can grow
-                        self.__verify_menu_too_small()
-
-                    # set new menu size
-                    self.__calculate_real_size()
-
-                    # set new menu position
-                    self.__set_real_position(self.__calculate_real_position(self.__current_event.size))
-
-                    # set new title position
-                    self.__set_title_real_position()
-
-                    # set new block position
-                    self.__configure_buttons_block()
-
-                    # update screen display background
-                    self.__screen_display.fill((255, 255, 255))
-
-                    # draw title
-                    self.__title.draw()
-
-                    # draw change buttons
-                    for change_button in self.__buttons_block.get_press_buttons_change_state():
-                        change_button.draw_mouse_out_button()
-                    pygame.display.update()
-
-                    # draw slide buttons
-                    for slide_button in self.__buttons_block.get_slide_buttons():
-                        slide_button.draw_mouse_out_button()
-                    pygame.display.update()
+                    self.__resize()
 
                 self.__current_mouse_position = pygame.mouse.get_pos()
                 self.__mouse_left_pressed = pygame.mouse.get_pressed()[0]
 
+                self.__update_redirect_buttons()
+
                 self.__update_change_state_buttons()
 
                 self.__update_slide_buttons()
+
+                if self.__update_state:
+                    self.__update_state = False
+                    loop_exit = True
+
