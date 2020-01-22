@@ -1,10 +1,10 @@
 import pygame
-import button
-import title
-import buttonblock
-import menu
-import font
-import mousestatebutton
+from button import *
+from title import *
+from buttonblock import *
+from menu import *
+from font import *
+from mousestatebutton import *
 
 white = (255, 255, 255)
 
@@ -19,41 +19,41 @@ def menu_loop():
 
     # ---------- colors ------------
 
-    mouse_out_colors1 = mousestatebutton.MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
-    mouse_out_colors2 = mousestatebutton.MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
-    mouse_out_colors3 = mousestatebutton.MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
-    mouse_out_colors4 = mousestatebutton.MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255))
-    mouse_out_colors5 = mousestatebutton.MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255))
-    mouse_out_colors6 = mousestatebutton.MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), width=(200, 200, 255))
+    mouse_out_colors1 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
+    mouse_out_colors2 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
+    mouse_out_colors3 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
+    mouse_out_colors4 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255))
+    mouse_out_colors5 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255))
+    mouse_out_colors6 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), width=(200, 200, 255))
 
-    mouse_over_colors1 = mousestatebutton.MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
-    mouse_over_colors2 = mousestatebutton.MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
-    mouse_over_colors3 = mousestatebutton.MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
-    mouse_over_colors4 = mousestatebutton.MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0))
-    mouse_over_colors5 = mousestatebutton.MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0))
-    mouse_over_colors6 = mousestatebutton.MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), width=(255, 165, 0))
+    mouse_over_colors1 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
+    mouse_over_colors2 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
+    mouse_over_colors3 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
+    mouse_over_colors4 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0))
+    mouse_over_colors5 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0))
+    mouse_over_colors6 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), width=(255, 165, 0))
 
     colours0 = (0, 0, 0)
-    colours1 = mousestatebutton.MouseAllStatesButtonColors(mouse_over_colors1, mouse_out_colors1)
-    colours2 = mousestatebutton.MouseAllStatesButtonColors(mouse_over_colors2, mouse_out_colors2)
-    colours3 = mousestatebutton.MouseAllStatesButtonColors(mouse_over_colors3, mouse_out_colors3)
-    colours4 = mousestatebutton.MouseAllStatesButtonColors(mouse_over_colors4, mouse_out_colors4)
-    colours5 = mousestatebutton.MouseAllStatesButtonColors(mouse_over_colors5, mouse_out_colors5)
-    colours6 = mousestatebutton.MouseAllStatesButtonColors(mouse_over_colors6, mouse_out_colors6)
+    colours1 = MouseAllStatesButtonColors(mouse_over_colors1, mouse_out_colors1)
+    colours2 = MouseAllStatesButtonColors(mouse_over_colors2, mouse_out_colors2)
+    colours3 = MouseAllStatesButtonColors(mouse_over_colors3, mouse_out_colors3)
+    colours4 = MouseAllStatesButtonColors(mouse_over_colors4, mouse_out_colors4)
+    colours5 = MouseAllStatesButtonColors(mouse_over_colors5, mouse_out_colors5)
+    colours6 = MouseAllStatesButtonColors(mouse_over_colors6, mouse_out_colors6)
 
     # -------- fonts ----------
 
-    font1 = font.Font("Arial", 70)
-    font2 = font.Font("Arial", 70)
-    font3 = font.Font("Arial", 70)
-    font4 = font.Font("calibri", 70)
-    font5 = font.Font("calibri", 70)
-    font6 = font.Font("timesnewroman", 70)
-    font7 = font.Font("timesnewroman", 70)
-    font8 = font.Font("timesnewroman", 70)
-    font9 = font.Font("timesnewroman", 70)
-    font10 = font.Font("calibri", 200)
-    font11 = font.Font("calibri", 200)
+    font1 = Font("Arial", 70)
+    font2 = Font("Arial", 70)
+    font3 = Font("Arial", 70)
+    font4 = Font("calibri", 70)
+    font5 = Font("calibri", 70)
+    font6 = Font("timesnewroman", 70)
+    font7 = Font("timesnewroman", 70)
+    font8 = Font("timesnewroman", 70)
+    font9 = Font("timesnewroman", 70)
+    font10 = Font("calibri", 200)
+    font11 = Font("calibri", 200)
 
     # ---------- ranges ----------
     range1 = range(201)
@@ -67,28 +67,28 @@ def menu_loop():
 
     # --------- title objects ----------
 
-    title_1 = title.Title(font10, colours0, "Title 1")
-    title_2 = title.Title(font11, colours0, "Title 2")
+    title_1 = Title(font10, colours0, "Title 1")
+    title_2 = Title(font11, colours0, "Title 2")
 
     # ---------- buttons objects ----------
 
-    slide_1 = button.SlideButton(font1, 10, range1, colours1)
-    slide_2 = button.SlideButton(font2, 10, range2, colours2)
-    slide_3 = button.SlideButton(font3, 10, range3, colours3)
-    state_4 = button.PressButtonChangeState(font4, range4, colours4)
-    state_5 = button.PressButtonChangeState(font5, range5, colours5)
-    redirect_1 = button.PressButtonRedirect(font6, option1, "STATE_MAIN_MENU", colours6)
-    redirect_2 = button.PressButtonRedirect(font7, option2, "STATE_SEC_MENU", colours6)
-    redirect_3 = button.PressButtonRedirect(font8, option3, "STATE_EXIT", colours6)
-    redirect_4 = button.PressButtonRedirect(font9, option3, "STATE_EXIT", colours6)
+    slide_1 = SlideButton(font1, 10, range1, colours1)
+    slide_2 = SlideButton(font2, 10, range2, colours2)
+    slide_3 = SlideButton(font3, 10, range3, colours3)
+    state_4 = PressButtonChangeState(font4, range4, colours4)
+    state_5 = PressButtonChangeState(font5, range5, colours5)
+    redirect_1 = PressButtonRedirect(font6, option1, "STATE_MAIN_MENU", colours6)
+    redirect_2 = PressButtonRedirect(font7, option2, "STATE_SEC_MENU", colours6)
+    redirect_3 = PressButtonRedirect(font8, option3, "STATE_EXIT", colours6)
+    redirect_4 = PressButtonRedirect(font9, option3, "STATE_EXIT", colours6)
 
     # ---------- Block ----------
-    menu_block_1 = buttonblock.Block((500, 500), ((slide_1,), (state_4,), (redirect_2,), (redirect_3,)), 20, 20)
-    menu_block_2 = buttonblock.Block((500, 500), ((slide_3,), (state_5,), (redirect_1,), (redirect_4,)), 20, 20)
+    menu_block_1 = Block((500, 500), ((slide_1,), (state_4,), (redirect_2,), (redirect_3,)), 20, 20)
+    menu_block_2 = Block((500, 500), ((slide_3,), (state_5,), (redirect_1,), (redirect_4,)), 20, 20)
 
     # ---------- Menu ----------
-    menu_1 = menu.Menu(screen, title_1, menu_block_1, 30, (0.80, 0.80), 0.80, "STATE_MAIN_MENU")
-    menu_2 = menu.Menu(screen, title_2, menu_block_2, 30, (0.80, 0.80), 0.80, "STATE_SEC_MENU")
+    menu_1 = Menu(screen, title_1, menu_block_1, 30, (0.80, 0.80), 0.80, "STATE_MAIN_MENU")
+    menu_2 = Menu(screen, title_2, menu_block_2, 30, (0.80, 0.80), 0.80, "STATE_SEC_MENU")
 
     # ---------- Tests ---------
 

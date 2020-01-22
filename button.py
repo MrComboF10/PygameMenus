@@ -1,4 +1,4 @@
-import realpolygons
+from realpolygons import *
 
 
 class TextButton:
@@ -107,19 +107,19 @@ class TextButton:
 
         # draw button without width
         if not self._real_width:
-            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(),
+            button_rect = RealRect(self._screen_display, state_colors.get_button(),
                                                 self._real_position, self._real_size)
             button_rect.draw()
 
         # draw button with width
         else:
             # draw button margin
-            button_margin_rect = realpolygons.RealRect(self._screen_display, state_colors.get_width(),
+            button_margin_rect = RealRect(self._screen_display, state_colors.get_width(),
                                                        self._real_position, self._real_size)
             button_margin_rect.draw()
 
             # draw inside button
-            button_rect = realpolygons.RealRect(self._screen_display, state_colors.get_button(),
+            button_rect = RealRect(self._screen_display, state_colors.get_button(),
                                                 (self._real_position[0] + round(self._real_width),
                                                  self._real_position[1] + round(self._real_width)),
                                                 (self._real_size[0] - 2 * round(self._real_width),
@@ -286,12 +286,12 @@ class SlideButton(TextButton):
         # draw button without width
         if not self._real_width:
             # draw button rectangle
-            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(),
+            button_rect = RealRect(self._screen_display, colors.get_button(),
                                                 self._real_position, self._real_size)
             button_rect.draw()
 
             # draw bar (mouse over button)
-            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position,
+            bar_rect = RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position,
                                              (self.__bar_real_width, self._real_size[1]))
             bar_rect.draw()
 
@@ -299,12 +299,12 @@ class SlideButton(TextButton):
         else:
 
             # draw button margin
-            button_margin_rect = realpolygons.RealRect(self._screen_display, colors.get_width(), self._real_position,
+            button_margin_rect = RealRect(self._screen_display, colors.get_width(), self._real_position,
                                                        self._real_size)
             button_margin_rect.draw()
 
             # draw button rectangle
-            button_rect = realpolygons.RealRect(self._screen_display, colors.get_button(),
+            button_rect = RealRect(self._screen_display, colors.get_button(),
                                                 (self._real_position[0] + round(self._real_width),
                                                  self._real_position[1] + round(self._real_width)),
                                                 (self._real_size[0] - 2 * round(self._real_width),
@@ -312,7 +312,7 @@ class SlideButton(TextButton):
             button_rect.draw()
 
             # draw bar
-            bar_rect = realpolygons.RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position,
+            bar_rect = RealRect(self._screen_display, colors.get_bar(), self.__current_real_bar_position,
                                              (self.__bar_real_width, self._real_size[1] - 2 * round(self._real_width)))
             bar_rect.draw()
 
