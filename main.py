@@ -4,7 +4,7 @@ from title import *
 from buttonblock import *
 from menu import *
 from font import *
-from mousestatebutton import *
+from buttoncolors import *
 
 white = (255, 255, 255)
 
@@ -19,27 +19,27 @@ def menu_loop():
 
     # ---------- colors ------------
 
-    mouse_out_colors1 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
-    mouse_out_colors2 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
-    mouse_out_colors3 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
-    mouse_out_colors4 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255))
-    mouse_out_colors5 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255))
-    mouse_out_colors6 = MouseStateButtonColors(button=(0, 255, 255), font=(0, 0, 255), width=(200, 200, 255))
+    mouse_out_colors1 = MouseOverButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
+    mouse_out_colors2 = MouseOverButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
+    mouse_out_colors3 = MouseOverButtonColors(button=(0, 255, 255), font=(0, 0, 255), bar=(200, 200, 255))
+    mouse_out_colors4 = MouseOverButtonColors(button=(0, 255, 255), font=(0, 0, 255))
+    mouse_out_colors5 = MouseOverButtonColors(button=(0, 255, 255), font=(0, 0, 255))
+    mouse_out_colors6 = MouseOverButtonColors(button=(0, 255, 255), font=(0, 0, 255), width=(200, 200, 255))
 
-    mouse_over_colors1 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
-    mouse_over_colors2 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
-    mouse_over_colors3 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
-    mouse_over_colors4 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0))
-    mouse_over_colors5 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0))
-    mouse_over_colors6 = MouseStateButtonColors(button=(255, 255, 0), font=(255, 0, 0), width=(255, 165, 0))
+    mouse_over_colors1 = MouseOverButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
+    mouse_over_colors2 = MouseOverButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
+    mouse_over_colors3 = MouseOverButtonColors(button=(255, 255, 0), font=(255, 0, 0), bar=(255, 165, 0))
+    mouse_over_colors4 = MouseOverButtonColors(button=(255, 255, 0), font=(255, 0, 0))
+    mouse_over_colors5 = MouseOverButtonColors(button=(255, 255, 0), font=(255, 0, 0))
+    mouse_over_colors6 = MouseOverButtonColors(button=(255, 255, 0), font=(255, 0, 0), width=(255, 165, 0))
 
     colours0 = (0, 0, 0)
-    colours1 = MouseAllStatesButtonColors(mouse_over_colors1, mouse_out_colors1)
-    colours2 = MouseAllStatesButtonColors(mouse_over_colors2, mouse_out_colors2)
-    colours3 = MouseAllStatesButtonColors(mouse_over_colors3, mouse_out_colors3)
-    colours4 = MouseAllStatesButtonColors(mouse_over_colors4, mouse_out_colors4)
-    colours5 = MouseAllStatesButtonColors(mouse_over_colors5, mouse_out_colors5)
-    colours6 = MouseAllStatesButtonColors(mouse_over_colors6, mouse_out_colors6)
+    colours1 = ButtonColors(mouse_over_colors1, mouse_out_colors1)
+    colours2 = ButtonColors(mouse_over_colors2, mouse_out_colors2)
+    colours3 = ButtonColors(mouse_over_colors3, mouse_out_colors3)
+    colours4 = ButtonColors(mouse_over_colors4, mouse_out_colors4)
+    colours5 = ButtonColors(mouse_over_colors5, mouse_out_colors5)
+    colours6 = ButtonColors(mouse_over_colors6, mouse_out_colors6)
 
     # -------- fonts ----------
 

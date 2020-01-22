@@ -1,4 +1,4 @@
-class MouseStateButtonColors:
+class MouseOverButtonColors:
     def __init__(self, button=(0, 0, 0), font=(0, 0, 0), bar=(0, 0, 0), width=(0, 0, 0)):
         self.__button = button
         self.__font = font
@@ -30,7 +30,7 @@ class MouseStateButtonColors:
         return self.__width
 
 
-class MouseAllStatesButtonColors:
+class ButtonColors:
     def __init__(self, mouse_over_button_colors, mouse_out_button_colors):
         self.__mouse_over_button_colors = mouse_over_button_colors
         self.__mouse_out_button_colors = mouse_out_button_colors
