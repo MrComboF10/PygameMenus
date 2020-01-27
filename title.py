@@ -11,15 +11,15 @@ class Title:
     def set_screen_display(self, new_screen):
         self.__screen_display = new_screen
 
-    def set_real_position(self, new_real_position):
-        self.__font_surface_rect.topleft = int(new_real_position[0]), int(new_real_position[1])
+    def set_float_position(self, new_float_position):
+        self.__font_surface_rect.topleft = int(new_float_position[0]), int(new_float_position[1])
 
-    def set_font_real_size(self, size):
-        self.__font.set_real_size(size)
+    def set_font_float_size(self, size):
+        self.__font.set_float_size(size)
         self.__font.update()
 
-    def get_font_real_size(self):
-        return self.__font.get_real_size()
+    def get_font_float_size(self):
+        return self.__font.get_float_size()
 
     def get_rect(self):
         return self.__font_surface_rect
