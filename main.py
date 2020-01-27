@@ -3,16 +3,14 @@ from button import *
 from title import *
 from buttonblock import *
 from menu import *
-from font import *
 from buttoncolors import *
+from PygameFloatObjects.objects import *
 
 white = (255, 255, 255)
 
 
 def menu_loop():
     pygame.init()
-    app_name = "PESTINHA"
-    pygame.display.set_caption(app_name)
     screen = pygame.display.set_mode((800, 800), pygame.RESIZABLE)
     screen.fill(white)
     pygame.display.update()
@@ -43,17 +41,17 @@ def menu_loop():
 
     # -------- fonts ----------
 
-    font1 = Font("Arial", 70)
-    font2 = Font("Arial", 70)
-    font3 = Font("Arial", 70)
-    font4 = Font("calibri", 70)
-    font5 = Font("calibri", 70)
-    font6 = Font("timesnewroman", 70)
-    font7 = Font("timesnewroman", 70)
-    font8 = Font("timesnewroman", 70)
-    font9 = Font("timesnewroman", 70)
-    font10 = Font("calibri", 200)
-    font11 = Font("calibri", 200)
+    font1 = FloatFont("Arial", 70)
+    font2 = FloatFont("Arial", 70)
+    font3 = FloatFont("Arial", 70)
+    font4 = FloatFont("calibri", 70)
+    font5 = FloatFont("calibri", 70)
+    font6 = FloatFont("timesnewroman", 70)
+    font7 = FloatFont("timesnewroman", 70)
+    font8 = FloatFont("timesnewroman", 70)
+    font9 = FloatFont("timesnewroman", 70)
+    font10 = FloatFont("calibri", 200)
+    font11 = FloatFont("calibri", 200)
 
     # ---------- ranges ----------
     range1 = range(201)
