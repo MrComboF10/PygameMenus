@@ -1,3 +1,0 @@
-Create calculate buttons sizes functions in classes blocks
-
-Add function get size and use function update in menu loop to update bottons sizes

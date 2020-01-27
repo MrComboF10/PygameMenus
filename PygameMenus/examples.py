@@ -1,15 +1,14 @@
-import pygame
-from button import *
-from title import *
-from buttonblock import *
-from menu import *
-from buttoncolors import *
+from PygameMenus.button import *
+from PygameMenus.title import *
+from PygameMenus.buttonblock import *
+from PygameMenus.menu import *
+from PygameMenus.buttoncolors import *
 from PygameFloatObjects.objects import *
-
-white = (255, 255, 255)
 
 
 def menu_loop():
+    white = (255, 255, 255)
+
     pygame.init()
     screen = pygame.display.set_mode((800, 800), pygame.RESIZABLE)
     screen.fill(white)
@@ -130,7 +129,4 @@ def menu_loop():
         else:
             print("Invalid state!")
 
-
-menu_loop()
-
-pygame.quit()
+    pygame.quit()
