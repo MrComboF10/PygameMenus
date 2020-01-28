@@ -68,5 +68,59 @@ button_range - list of all values that can be displayed on the button (In this c
 
 slide_button - type of button which has a slide bar (object of PygameMenus package).
 
-##### Variables
 10 - bar width.
+
+### Create buttons block
+
+```
+buttons_matrix = ((slide_button, slide_button_1, slide_button_2),
+                  (states_button_1,),
+                  (redirect_button_1, redirect_button_1))
+                                 
+block = Block((500, 500), buttons_matrix, 20, 30)
+```
+#### Objects
+buttons_matrix - Matrix of buttons that defines where the buttons are displayed in the menu.
+
+block - Object located under the menu title which contains all the menu buttons and their location.
+
+(500, 500) - Size of the block (x, y).
+
+20 - Horizontal margin between buttons.
+
+30 - Vertical margin between buttons.
+
+### Create title
+
+```
+title_font = FloatFont("Arial", 150)
+
+title = Title(title_font, (0, 0, 0), "Main Menu")
+```
+#### Objects
+title_font - Font of the title (object of PygameFloatObjects)
+
+(0, 0, 0) - Color of the title font
+
+"Main Menu" - Text of the title font
+
+### Create menu
+
+```
+main_menu = Menu(screen, title, block, 30, (0.80, 0.80), 0.80, "STATE_MAIN_MENU")
+```
+#### Objects
+screen - Pygame screen display object
+
+title - Menu title (PygameMenus object)
+
+block - Buttons block (PygameMenus object)
+
+30 - Margin between title and block
+
+(0.80, 0.80) - Horizontal and vertical menu maximum size ratio (used to know the instance of resizing)
+
+0.80 - Resize ratio (How much the menu should resize)
+
+"STATE_MAIN_MENU" - String corresponding to the menu state name (used in the loop of the program)
+
