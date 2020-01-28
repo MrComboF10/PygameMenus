@@ -1,4 +1,4 @@
-class MouseOverButtonColors:
+class MousePositionButtonColors:
     def __init__(self, button=(0, 0, 0), font=(0, 0, 0), bar=(0, 0, 0), width=(0, 0, 0)):
         self.__button = button
         self.__font = font

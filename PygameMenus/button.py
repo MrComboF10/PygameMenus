@@ -129,7 +129,7 @@ class TextButton:
         self._draw_font_surface(text, state_colors.get_font())
 
 
-class PressButtonRedirect(TextButton):
+class RedirectButton(TextButton):
     def __init__(self, font, text, pointer, colors, position=None, size=None, screen_display=None, float_width=0):
 
         super().__init__(position, size, font, screen_display, colors, float_width)
@@ -166,7 +166,7 @@ class PressButtonRedirect(TextButton):
         super().draw_button(self.__text, self._colors.get_mouse_over_button_colors())
 
 
-class PressButtonChangeState(TextButton):
+class StatesButton(TextButton):
     def __init__(self, font, states_text_list, colors, position=None, size=None, screen_display=None, float_width=0):
 
         super().__init__(position, size, font, screen_display, colors, float_width)
