@@ -70,10 +70,10 @@ class Block:
 
     def __separate_text_buttons_type(self):
         for button in self.__text_buttons:
-            if type(button).__name__ == "PressButtonRedirect":
+            if type(button).__name__ == "RedirectButton":
                 self.__press_buttons_redirect.append(button)
 
-            elif type(button).__name__ == "PressButtonChangeState":
+            elif type(button).__name__ == "StatesButton":
                 self.__press_buttons_change_state.append(button)
 
             elif type(button).__name__ == "SlideButton":
