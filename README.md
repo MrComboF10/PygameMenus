@@ -98,11 +98,11 @@ title_font = FloatFont("Arial", 150)
 title = Title(title_font, (0, 0, 0), "Main Menu")
 ```
 #### Objects
-title_font - Font of the title (object of PygameFloatObjects)
+title_font - Font of the title (object of PygameFloatObjects).
 
-(0, 0, 0) - Color of the title font
+(0, 0, 0) - Color of the title font.
 
-"Main Menu" - Text of the title font
+"Main Menu" - Text of the title font.
 
 ### Create menu
 
@@ -110,17 +110,61 @@ title_font - Font of the title (object of PygameFloatObjects)
 main_menu = Menu(screen, title, block, 30, (0.80, 0.80), 0.80, "STATE_MAIN_MENU")
 ```
 #### Objects
-screen - Pygame screen display object
+screen - Pygame screen display object.
 
-title - Menu title (PygameMenus object)
+title - Menu title (PygameMenus object).
 
-block - Buttons block (PygameMenus object)
+block - Buttons block (PygameMenus object).
 
-30 - Margin between title and block
+30 - Margin between title and block.
 
-(0.80, 0.80) - Horizontal and vertical menu maximum size ratio (used to know the instance of resizing)
+(0.80, 0.80) - Horizontal and vertical menu maximum size ratio (used to know the instance of resizing).
 
-0.80 - Resize ratio (How much the menu should resize)
+0.80 - Resize ratio (How much the menu should resize).
 
-"STATE_MAIN_MENU" - String corresponding to the menu state name (used in the loop of the program)
+"STATE_MAIN_MENU" - String corresponding to the menu state name (used in the loop of the program).
+
+### Create loop
+
+```
+exit_loop = False
+current_state = "STATE_MAIN_MENU"
+current_screen_display = screen
+
+while not exit_loop:
+
+    if current_state == "STATE_MAIN_MENU":
+
+        main_menu.set_screen_display(current_screen_display)
+        main_menu.loop()
+        if main_menu.get_pressed_exit():
+            exit_loop = True
+
+        else:
+            current_state = main_menu.get_next_state()
+            current_screen_display = main_menu.get_screen_display()
+
+        screen.fill((255, 255, 255))
+        pygame.display.update()
+
+    elif current_state == "STATE_SEC_MENU":
+
+        sec_menu.set_screen_display(current_screen_display)
+        sec_menu.loop()
+        if sec_menu.get_pressed_exit():
+            exit_loop = True
+
+        else:
+            current_state = sec_menu.get_next_state()
+            current_screen_display = sec_menu.get_screen_display()
+
+        screen.fill((255, 255, 255))
+        pygame.display.update()
+
+    elif current_state == "STATE_EXIT":
+        exit_loop = True
+
+    else:
+        print("Invalid state!")
+```
 
