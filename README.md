@@ -32,14 +32,35 @@ py -m twine upload --skip-existing dist/*
 ### Press Button
 
 <p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/PressButton.gif?raw=true"/></p>
+```
+# create button
+press_button = PressButton(font, items_list, colors)
+
+# get current item displayed on button
+current_item = press_button.get_current_item()
+```
 
 ### Slide Button
 
 <p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/SlideButton.gif?raw=true"/></p>
+```
+# create button
+slide_button = SlideButton(font, bar_width, items_list, colors)
+
+# get current item displayed on button
+current_item = slide_button.get_current_item()
+```
 
 ### Redirect Button
 
 <p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/RedirectButton.png?raw=true"/></p>
+```
+# create button
+redirect_button = RedirectButton(font, bar_width, items_list, colors)
+
+# get current item displayed on button
+next_state = redirect_button.get_next_state()
+```
 
 ## Examples
 
