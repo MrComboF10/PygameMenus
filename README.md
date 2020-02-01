@@ -27,6 +27,12 @@ py setup.py sdist
 py -m twine upload --skip-existing dist/*
 ```
 
+## Buttons
+
+### States Button
+
+<p align="center"><img src="https://github.com/msramalho/sigpy/blob/master/examples/demo.gif?raw=true"/></p>
+
 ## Examples
 
 ### Setup button colors
