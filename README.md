@@ -177,7 +177,7 @@ block - Buttons block (PygameMenus object).
 
 30 - Margin between title and block.
 
-(0.80, 0.80) - Horizontal and vertical menu maximum size ratio (used to know the instance of resizing).
+(0.80, 0.80) - Horizontal and vertical menu maximum size ratio (used to know the instant of resizing).
 
 0.80 - Resize ratio (How much the menu should resize).
 
