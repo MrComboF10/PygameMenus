@@ -82,7 +82,7 @@ current_item = slide_button.get_current_item()
 # create button
 redirect_button = RedirectButton(font, bar_width, items_list, colors)
 
-# get current item displayed on button
+# get the state where the button is redirecting to
 next_state = redirect_button.get_next_state()
 ```
 
