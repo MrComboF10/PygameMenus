@@ -166,30 +166,36 @@ class RedirectButton(TextButton):
         super().draw_button(self.__text, self._colors.get_mouse_over_button_colors())
 
 
-class StatesButton(TextButton):
-    def __init__(self, font, states_text_list, colors, position=None, size=None, screen_display=None, float_width=0):
+class PressButton(TextButton):
+    def __init__(self, font, items_list, colors, position=None, size=None, screen_display=None, float_width=0):
 
         super().__init__(position, size, font, screen_display, colors, float_width)
 
         # list of strings that can appear on button when button is pressed
-        self.__states_text_list = states_text_list
+        self.__items_list = items_list
 
         # initial index
-        self.__current_state_text_index = 0
+        self.__current_item_index = 0
+
+    def get_current_item_index(self):
+        return self.__current_item_index
+
+    def get_current_item(self):
+        return self.__items_list[self.__current_item_index]
 
     # increment text index
-    def add_state_text_index(self):
-        self.__current_state_text_index += 1
-        self.__current_state_text_index = self.__current_state_text_index % len(self.__states_text_list)
+    def add_item_index(self):
+        self.__current_item_index += 1
+        self.__current_item_index = self.__current_item_index % len(self.__items_list)
 
     # draw button (mouse out button)
     def draw_mouse_out_button(self):
-        super().draw_button(self.__states_text_list[self.__current_state_text_index],
+        super().draw_button(self.__items_list[self.__current_item_index],
                             self._colors.get_mouse_out_button_colors())
 
     # draw button (mouse over button)
     def draw_mouse_over_button(self):
-        super().draw_button(self.__states_text_list[self.__current_state_text_index],
+        super().draw_button(self.__items_list[self.__current_item_index],
                             self._colors.get_mouse_over_button_colors())
 
 

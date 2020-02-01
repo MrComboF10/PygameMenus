@@ -231,7 +231,7 @@ class Menu:
 
     def __update_redirect_buttons(self):
 
-        for redirect_button in self.__buttons_block.get_press_buttons_redirect():
+        for redirect_button in self.__buttons_block.get_redirect_buttons():
 
             # get mouse location before and after to verify if mouse location has changed
 
@@ -284,37 +284,37 @@ class Menu:
                     redirect_button.draw_mouse_out_button()
                     pygame.display.update()
 
-    def __update_change_state_buttons(self):
+    def __update_press_buttons(self):
 
-        for change_button in self.__buttons_block.get_press_buttons_change_state():
+        for press_button in self.__buttons_block.get_press_buttons():
 
             # get mouse location before and after to verify if mouse location has changed
 
             # get mouse before change
-            mouse_location_before = change_button.get_mouse_over_button()
+            mouse_location_before = press_button.get_mouse_over_button()
 
             # verify if mouse is on button
-            change_button.verify_mouse_on_button(self.__current_mouse_position)
+            press_button.verify_mouse_on_button(self.__current_mouse_position)
 
             # get mouse after change
-            mouse_location_after = change_button.get_mouse_over_button()
+            mouse_location_after = press_button.get_mouse_over_button()
 
             # verify if mouse location inside or outside button changed
             if mouse_location_before != mouse_location_after:
 
                 # mouse location changed is used to draw button if location changed
-                change_button.set_mouse_location_changed(True)
+                press_button.set_mouse_location_changed(True)
             else:
-                change_button.set_mouse_location_changed(False)
+                press_button.set_mouse_location_changed(False)
 
             # verify if mouse is on button
-            if change_button.get_mouse_over_button():
+            if press_button.get_mouse_over_button():
 
                 # verify if mouse was outside button before
-                if change_button.get_mouse_location_changed():
+                if press_button.get_mouse_location_changed():
 
                     # draw change button (mouse over button)
-                    change_button.draw_mouse_over_button()
+                    press_button.draw_mouse_over_button()
                     pygame.display.update()
 
                 if self.__current_event.type == pygame.MOUSEBUTTONDOWN:
@@ -323,19 +323,19 @@ class Menu:
                     if self.__current_event.button == 1:
 
                         # display inside change button the next text
-                        change_button.add_state_text_index()
+                        press_button.add_item_index()
 
                         # draw change button (mouse over button)
-                        change_button.draw_mouse_over_button()
+                        press_button.draw_mouse_over_button()
                         pygame.display.update()
 
             else:
 
                 # verify if mouse was inside before
-                if change_button.get_mouse_location_changed():
+                if press_button.get_mouse_location_changed():
 
                     # draw change button (mouse out button)
-                    change_button.draw_mouse_out_button()
+                    press_button.draw_mouse_out_button()
                     pygame.display.update()
 
     def __update_slide_buttons(self):
@@ -452,11 +452,11 @@ class Menu:
         self.__title.draw()
 
         # draw redirect buttons
-        for redirect_button in self.__buttons_block.get_press_buttons_redirect():
+        for redirect_button in self.__buttons_block.get_redirect_buttons():
             redirect_button.draw_mouse_out_button()
 
         # draw change buttons
-        for change_button in self.__buttons_block.get_press_buttons_change_state():
+        for change_button in self.__buttons_block.get_press_buttons():
             change_button.draw_mouse_out_button()
 
         # draw slide buttons
@@ -505,7 +505,7 @@ class Menu:
 
                 self.__update_redirect_buttons()
 
-                self.__update_change_state_buttons()
+                self.__update_press_buttons()
 
                 self.__update_slide_buttons()
 

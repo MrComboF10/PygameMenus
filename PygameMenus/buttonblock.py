@@ -12,7 +12,7 @@ class Block:
         self.__separate_buttons_type()
 
         # separate text buttons by type
-        self.__press_buttons_redirect, self.__press_buttons_change_state, self.__slide_buttons = [], [], []
+        self.__redirect_buttons, self.__press_buttons, self.__slide_buttons = [], [], []
         self.__separate_text_buttons_type()
 
     def set_float_position(self, new_position):
@@ -31,16 +31,16 @@ class Block:
         self.__float_horizontal_margin = new_float_horizontal_margin
 
     def get_buttons(self):
-        return self.get_press_buttons_redirect() + self.get_press_buttons_change_state() + self.get_slide_buttons()
+        return self.get_redirect_buttons() + self.get_press_buttons() + self.get_slide_buttons()
 
     def get_text_buttons(self):
         return self.__text_buttons
 
-    def get_press_buttons_redirect(self):
-        return self.__press_buttons_redirect
+    def get_redirect_buttons(self):
+        return self.__redirect_buttons
 
-    def get_press_buttons_change_state(self):
-        return self.__press_buttons_change_state
+    def get_press_buttons(self):
+        return self.__press_buttons
 
     def get_slide_buttons(self):
         return self.__slide_buttons
@@ -71,10 +71,10 @@ class Block:
     def __separate_text_buttons_type(self):
         for button in self.__text_buttons:
             if type(button).__name__ == "RedirectButton":
-                self.__press_buttons_redirect.append(button)
+                self.__redirect_buttons.append(button)
 
-            elif type(button).__name__ == "StatesButton":
-                self.__press_buttons_change_state.append(button)
+            elif type(button).__name__ == "PressButton":
+                self.__press_buttons.append(button)
 
             elif type(button).__name__ == "SlideButton":
                 self.__slide_buttons.append(button)

@@ -69,25 +69,25 @@ def example_1():
 
 
 
-    # --- States buttons ---
+    # --- Press buttons ---
 
-    # create states buttons colors when mouse is outside button
-    main_states_1_mouse_out_colors = MousePositionButtonColors(button=(0, 255, 255), font=(0, 0, 255))
+    # create press buttons colors when mouse is outside button
+    main_press_1_mouse_out_colors = MousePositionButtonColors(button=(0, 255, 255), font=(0, 0, 255))
 
-    # create states buttons colors when mouse is over button
-    main_states_1_mouse_over_colors = MousePositionButtonColors(button=(255, 255, 0), font=(255, 0, 0))
+    # create press buttons colors when mouse is over button
+    main_press_1_mouse_over_colors = MousePositionButtonColors(button=(255, 255, 0), font=(255, 0, 0))
 
-    # create states buttons colors
-    main_states_1_colors = ButtonColors(main_states_1_mouse_over_colors, main_states_1_mouse_out_colors)
+    # create press buttons colors
+    main_press_1_colors = ButtonColors(main_press_1_mouse_over_colors, main_press_1_mouse_out_colors)
 
-    # create states buttons fonts
-    main_states_1_font = FloatFont("Arial", 50)
+    # create press buttons fonts
+    main_press_1_font = FloatFont("Arial", 50)
 
-    # create states buttons ranges
-    main_states_1_range = ["Difficulty: Very Easy", "Difficulty: Easy", "Difficulty: Medium", "Difficulty: Hard", "Difficulty: Very Hard"]
+    # create press buttons ranges
+    main_press_1_range = ["Difficulty: Very Easy", "Difficulty: Easy", "Difficulty: Medium", "Difficulty: Hard", "Difficulty: Very Hard"]
 
-    # create states buttons
-    main_states_button_1 = StatesButton(main_states_1_font, main_states_1_range, main_states_1_colors)
+    # create press buttons
+    main_press_button_1 = PressButton(main_press_1_font, main_press_1_range, main_press_1_colors)
 
 
 
@@ -130,7 +130,7 @@ def example_1():
 
     # create buttons matrix
     main_block_buttons_matrix = ((main_slide_1, main_slide_2, main_slide_3),
-                                 (main_states_button_1,),
+                                 (main_press_button_1,),
                                  (main_redirect_1, main_redirect_2))
 
     # create block vertical and horizontal margin
@@ -211,25 +211,25 @@ def example_1():
     sec_slide_2 = SlideButton(sec_slide_2_font, sec_slide_bar_width, sec_slide_2_range, sec_slide_2_colors)
     sec_slide_3 = SlideButton(sec_slide_3_font, sec_slide_bar_width, sec_slide_3_range, sec_slide_3_colors)
 
-    # --- States buttons ---
+    # --- Press buttons ---
 
-    # create states buttons colors when mouse is outside button
-    sec_states_1_mouse_out_colors = MousePositionButtonColors(button=(0, 255, 255), font=(0, 0, 255))
+    # create press buttons colors when mouse is outside button
+    sec_press_1_mouse_out_colors = MousePositionButtonColors(button=(0, 255, 255), font=(0, 0, 255))
 
-    # create states buttons colors when mouse is over button
-    sec_states_1_mouse_over_colors = MousePositionButtonColors(button=(255, 255, 0), font=(255, 0, 0))
+    # create press buttons colors when mouse is over button
+    sec_press_1_mouse_over_colors = MousePositionButtonColors(button=(255, 255, 0), font=(255, 0, 0))
 
-    # create states buttons colors
-    sec_states_1_colors = ButtonColors(sec_states_1_mouse_over_colors, sec_states_1_mouse_out_colors)
+    # create press buttons colors
+    sec_press_1_colors = ButtonColors(sec_press_1_mouse_over_colors, sec_press_1_mouse_out_colors)
 
-    # create states buttons fonts
-    sec_states_1_font = FloatFont("Arial", 40)
+    # create press buttons fonts
+    sec_press_1_font = FloatFont("Arial", 40)
 
-    # create states buttons ranges
-    sec_states_1_range = ["f(x, y, z)", "g(x, y, z)", "h(x, y, z)"]
+    # create press buttons ranges
+    sec_press_1_range = ["f(x, y, z)", "g(x, y, z)", "h(x, y, z)"]
 
-    # create states buttons
-    sec_states_button_1 = StatesButton(sec_states_1_font, sec_states_1_range, sec_states_1_colors)
+    # create press buttons
+    sec_press_button_1 = PressButton(sec_press_1_font, sec_press_1_range, sec_press_1_colors)
 
     # --- Redirect buttons ---
 
@@ -262,7 +262,7 @@ def example_1():
     # create buttons matrix
     sec_block_buttons_matrix = ((sec_slide_1,),
                                 (sec_slide_2, None, sec_slide_3),
-                                (None, sec_states_button_1, None),
+                                (None, sec_press_button_1, None),
                                 (sec_redirect_1, None))
 
     # create block vertical and horizontal margin
