@@ -177,9 +177,6 @@ class PressButton(TextButton):
         # initial index
         self.__current_item_index = 0
 
-    def get_current_item_index(self):
-        return self.__current_item_index
-
     def get_current_item(self):
         return self.__items_list[self.__current_item_index]
 
