@@ -31,7 +31,7 @@ py -m twine upload --skip-existing dist/*
 
 ### States Button
 
-<p align="center"><img src="https://github.com/msramalho/sigpy/blob/master/examples/demo.gif?raw=true"/></p>
+<p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/StatesButton.gif?raw=true"/></p>
 
 ## Examples
 
