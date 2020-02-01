@@ -29,9 +29,9 @@ py -m twine upload --skip-existing dist/*
 
 ## Buttons
 
-### States Button
+### Press Button
 
-<p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/StatesButton.gif?raw=true"/></p>
+<p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/PressButton.gif?raw=true"/></p>
 
 ### Slide Button
 
@@ -88,7 +88,7 @@ slide_button - type of button which has a slide bar (object of PygameMenus packa
 
 ```
 buttons_matrix = ((slide_button, slide_button_1, slide_button_2),
-                  (states_button_1,),
+                  (press_button_1,),
                   (redirect_button_1, redirect_button_1))
                                  
 block = Block((500, 500), buttons_matrix, 20, 30)
