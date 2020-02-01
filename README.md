@@ -37,6 +37,10 @@ py -m twine upload --skip-existing dist/*
 
 <p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/SlideButton.gif?raw=true"/></p>
 
+### Redirect Button
+
+<p align="center"><img src="https://github.com/MrComboF10/PygameMenus/blob/master/PygameMenus/images/RedirectButton.png?raw=true"/></p>
+
 ## Examples
 
 ### Setup button colors
