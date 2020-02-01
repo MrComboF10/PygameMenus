@@ -5,14 +5,22 @@ This packages helps you to not waste time creating menus for games or others pyg
 
 All you have to do is:
 
-1 - Create and configure the colors of your buttons
-2 - Create and configure as many buttons as you want
-3 - Put them into a matrix (2D list)
-4 - Configure the matrix in a block object
-5 - Create and configure a title
-6 - Create and configure as many menus and submenus as you want
-7 - Copy and paste the loop in the examples section of this readme
-8 - Try to merge your project with the menus (This may be the trickiest part :D)
+1 - Create and configure the colors of your buttons.
+
+2 - Create and configure as many buttons as you want.
+
+3 - Put them into a matrix (2D list).
+
+4 - Configure the matrix in a block object.
+
+5 - Create and configure a title.
+
+6 - Create and configure as many menus and submenus as you want.
+
+7 - Copy and paste the loop in the examples section of this readme.
+
+8 - Try to merge your project with the menus (This may be the trickiest part :D).
+
 
 IMPORTANT: This package as no documentation available yet. However you can find all the information you need in this readme and in the examples source file in PygameMenus/examples.py :)
 
