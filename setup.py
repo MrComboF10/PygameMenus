@@ -8,7 +8,7 @@ with open('requirements.txt') as requirements:
 
 setuptools.setup(
   name='PygameMenus',
-  version='0.0.3',
+  version='0.0.4',
   license='MIT',
   description='Make menus with pygame',
   long_description=long_description,
